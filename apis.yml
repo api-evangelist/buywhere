@@ -1,0 +1,27 @@
+aid: buywhere
+url: https://raw.githubusercontent.com/api-evangelist/buywhere/refs/heads/main/apis.yml
+name: BuyWhere
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+description: 'Agent-native product catalog API for Southeast Asia e-commerce — Shopee, Lazada, Carousell.'
+created: '2026-05-16'
+modified: '2026-05-16'
+specificationVersion: '0.19'
+tags:
+  - E-commerce
+  - Shopping
+  - Price Comparison
+  - SEA
+  - Southeast Asia
+  - AI Agents
+  - Product Catalog
+
+common:
+  - url: https://api.buywhere.ai/
+    type: Website
+  - url: https://api.buywhere.ai/
+    type: Documentation
+  - url: https://api.buywhere.ai/
+    type: APIsJSON
+url-source: https://api.buywhere.ai/
+apis: []
