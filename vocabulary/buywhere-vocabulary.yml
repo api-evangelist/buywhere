@@ -1,0 +1,146 @@
+vocabulary: 0.1
+provider: BuyWhere
+description: >-
+  Vocabulary mapping the BuyWhere Product Catalog API onto operational and
+  capability dimensions: identity, merchants and regions, taxonomy, pricing
+  and discounts, agent-oriented structured attributes, and MCP tooling.
+domains:
+  - name: Identity
+    terms:
+      - id
+      - title
+      - description
+      - brand
+      - url
+      - image_url
+      - slug
+      - updated_at
+  - name: Merchant And Region
+    terms:
+      - domain
+      - merchant_name
+      - region
+      - country_code
+      - currency
+      - normalized_price_usd
+  - name: Taxonomy
+    terms:
+      - category_path
+      - slug
+      - parent_slug
+      - product_count
+      - subcategories
+  - name: Pricing
+    terms:
+      - price
+      - original_price
+      - discount_pct
+      - min_price
+      - max_price
+      - normalized_price_usd
+      - price_history
+      - stats.min
+      - stats.max
+      - stats.avg
+      - stats.current
+  - name: Rating
+    terms:
+      - rating
+      - review_count
+  - name: Availability
+    terms:
+      - availability
+      - in_stock
+      - out_of_stock
+      - preorder
+      - limited
+  - name: Agent Reasoning
+    terms:
+      - compact
+      - structured_specs
+      - comparison_attributes
+      - mcp
+      - tools/call
+      - search_products
+      - get_product
+      - compare_products
+      - get_deals
+      - list_categories
+      - find_best_price
+  - name: Authentication
+    terms:
+      - api_key
+      - bw_free_
+      - bw_live_
+      - bw_partner_
+      - tier
+      - rate_limit.rpm
+      - rate_limit.daily
+  - name: Geography
+    terms:
+      - sea
+      - us
+      - eu
+      - au
+      - SG
+      - US
+      - VN
+      - TH
+      - MY
+  - name: Merchants
+    terms:
+      - shopee
+      - lazada
+      - amazon
+      - walmart
+      - carousell
+      - best_denki
+      - fairprice
+capabilities:
+  - name: Product Search
+    description: Keyword search across merchants, regions, countries with price filters.
+    operations:
+      - searchProducts
+  - name: Product Detail
+    description: Retrieve a product by ID with structured specs and Schema.org metadata.
+    operations:
+      - getProduct
+  - name: Product Comparison
+    description: Side-by-side comparison of 2-10 products with normalized attributes.
+    operations:
+      - compareProducts
+  - name: Deals Discovery
+    description: Discounted products sorted by discount percentage.
+    operations:
+      - getDeals
+  - name: Price History
+    description: Price history over a configurable look-back window (up to 90 days).
+    operations:
+      - getProductPrices
+  - name: Category Browsing
+    description: Top-level categories and products within a category.
+    operations:
+      - listCategories
+      - getCategoryProducts
+  - name: Agent Registration
+    description: Register an AI agent and receive a Bearer API key.
+    operations:
+      - registerAgent
+  - name: MCP Tooling
+    description: Hosted MCP HTTP endpoint and STDIO package exposing the catalog to MCP clients.
+    operations:
+      - search_products
+      - get_product
+      - compare_products
+      - get_deals
+      - list_categories
+      - find_best_price
+tags:
+  - E-commerce
+  - Shopping
+  - Price Comparison
+  - SEA
+  - Southeast Asia
+  - AI Agents
+  - Product Catalog
+  - MCP

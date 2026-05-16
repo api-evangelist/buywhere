@@ -1,0 +1,329 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BuyWhere Product Catalog API
+  description: |
+    Shared capability definition for the BuyWhere Product Catalog API — an agent-native,
+    MCP-native product search, comparison, deals, and price-history API across Southeast
+    Asian (Shopee, Lazada, Carousell, FairPrice, Best Denki) and US (Amazon, Walmart, Best Buy)
+    e-commerce platforms.
+  tags:
+    - BuyWhere
+    - E-commerce
+    - Shopping
+    - Price Comparison
+    - SEA
+    - Southeast Asia
+    - AI Agents
+    - Product Catalog
+    - MCP
+  created: '2026-05-16'
+  modified: '2026-05-16'
+capability:
+  consumes:
+    - type: http
+      namespace: buywhere
+      baseUri: https://api.buywhere.ai/v1
+      description: BuyWhere Product Catalog REST API.
+      authentication:
+        type: bearer
+        token: ${BUYWHERE_API_KEY}
+      resources:
+        - name: agents
+          path: /auth/register
+          operations:
+            - name: registerAgent
+              method: POST
+              description: Register an agent and receive a Bearer API key.
+              inputParameters:
+                - name: agent_name
+                  in: body
+                  type: string
+                  required: true
+                - name: contact
+                  in: body
+                  type: string
+                - name: use_case
+                  in: body
+                  type: string
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+        - name: products-search
+          path: /products/search
+          operations:
+            - name: searchProducts
+              method: GET
+              description: Search products by keyword across Southeast Asian and US merchants.
+              inputParameters:
+                - { name: q,            in: query, type: string }
+                - { name: domain,       in: query, type: string }
+                - { name: region,       in: query, type: string }
+                - { name: country_code, in: query, type: string }
+                - { name: min_price,    in: query, type: number }
+                - { name: max_price,    in: query, type: number }
+                - { name: currency,     in: query, type: string }
+                - { name: compact,      in: query, type: boolean }
+                - { name: limit,        in: query, type: integer }
+                - { name: offset,       in: query, type: integer }
+              outputRawFormat: json
+              outputParameters:
+                - { name: result, type: object, value: $. }
+        - name: products-deals
+          path: /products/deals
+          operations:
+            - name: getDeals
+              method: GET
+              description: Get discounted products sorted by discount percentage.
+              inputParameters:
+                - { name: currency,     in: query, type: string }
+                - { name: country_code, in: query, type: string }
+                - { name: min_discount, in: query, type: number }
+                - { name: limit,        in: query, type: integer }
+                - { name: offset,       in: query, type: integer }
+              outputRawFormat: json
+              outputParameters:
+                - { name: result, type: object, value: $. }
+        - name: products-compare
+          path: /products/compare
+          operations:
+            - name: compareProducts
+              method: GET
+              description: Compare 2-10 products side-by-side.
+              inputParameters:
+                - { name: ids, in: query, type: string, required: true }
+              outputRawFormat: json
+              outputParameters:
+                - { name: result, type: object, value: $. }
+        - name: product
+          path: /products/{id}
+          operations:
+            - name: getProduct
+              method: GET
+              description: Get a product by ID.
+              inputParameters:
+                - { name: id, in: path, type: string, required: true }
+              outputRawFormat: json
+              outputParameters:
+                - { name: result, type: object, value: $. }
+        - name: product-prices
+          path: /products/{id}/prices
+          operations:
+            - name: getProductPrices
+              method: GET
+              description: Get price history for a product (up to 90 days).
+              inputParameters:
+                - { name: id,   in: path,  type: string,  required: true }
+                - { name: days, in: query, type: integer }
+              outputRawFormat: json
+              outputParameters:
+                - { name: result, type: object, value: $. }
+        - name: categories
+          path: /categories
+          operations:
+            - name: listCategories
+              method: GET
+              description: List top-level product categories.
+              inputParameters:
+                - { name: currency, in: query, type: string }
+              outputRawFormat: json
+              outputParameters:
+                - { name: result, type: object, value: $. }
+        - name: category-products
+          path: /categories/{slug}
+          operations:
+            - name: getCategoryProducts
+              method: GET
+              description: Get products within a category.
+              inputParameters:
+                - { name: slug,     in: path,  type: string, required: true }
+                - { name: currency, in: query, type: string }
+                - { name: limit,    in: query, type: integer }
+                - { name: offset,   in: query, type: integer }
+              outputRawFormat: json
+              outputParameters:
+                - { name: result, type: object, value: $. }
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: buywhere-rest
+      description: REST adapter for the BuyWhere Product Catalog API.
+      resources:
+        - path: /products/search
+          name: searchProducts
+          operations:
+            - method: GET
+              name: searchProducts
+              description: Search BuyWhere catalog by keyword.
+              call: buywhere.searchProducts
+              with:
+                q: rest.q
+                domain: rest.domain
+                region: rest.region
+                country_code: rest.country_code
+                min_price: rest.min_price
+                max_price: rest.max_price
+                currency: rest.currency
+                compact: rest.compact
+                limit: rest.limit
+                offset: rest.offset
+              outputParameters:
+                - { type: object, mapping: $. }
+        - path: /products/deals
+          name: getDeals
+          operations:
+            - method: GET
+              name: getDeals
+              call: buywhere.getDeals
+              with:
+                currency: rest.currency
+                country_code: rest.country_code
+                min_discount: rest.min_discount
+                limit: rest.limit
+                offset: rest.offset
+              outputParameters:
+                - { type: object, mapping: $. }
+        - path: /products/compare
+          name: compareProducts
+          operations:
+            - method: GET
+              name: compareProducts
+              call: buywhere.compareProducts
+              with:
+                ids: rest.ids
+              outputParameters:
+                - { type: object, mapping: $. }
+        - path: /products/{id}
+          name: getProduct
+          operations:
+            - method: GET
+              name: getProduct
+              call: buywhere.getProduct
+              with:
+                id: rest.id
+              outputParameters:
+                - { type: object, mapping: $. }
+        - path: /products/{id}/prices
+          name: getProductPrices
+          operations:
+            - method: GET
+              name: getProductPrices
+              call: buywhere.getProductPrices
+              with:
+                id: rest.id
+                days: rest.days
+              outputParameters:
+                - { type: object, mapping: $. }
+        - path: /categories
+          name: listCategories
+          operations:
+            - method: GET
+              name: listCategories
+              call: buywhere.listCategories
+              with:
+                currency: rest.currency
+              outputParameters:
+                - { type: object, mapping: $. }
+        - path: /categories/{slug}
+          name: getCategoryProducts
+          operations:
+            - method: GET
+              name: getCategoryProducts
+              call: buywhere.getCategoryProducts
+              with:
+                slug: rest.slug
+                currency: rest.currency
+                limit: rest.limit
+                offset: rest.offset
+              outputParameters:
+                - { type: object, mapping: $. }
+    - type: mcp
+      port: 9090
+      namespace: buywhere-mcp
+      transport: http
+      description: |
+        MCP adapter mirroring the BuyWhere hosted MCP server at https://api.buywhere.ai/mcp.
+        Exposes search, lookup, comparison, deals, categories, and price-history tools to
+        MCP-compatible agents (Claude Desktop, Cursor, ChatGPT, custom MCP clients).
+      tools:
+        - name: search_products
+          description: Search catalog by keyword, price range, platform, region, country.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: buywhere.searchProducts
+          with:
+            q: tools.q
+            domain: tools.domain
+            region: tools.region
+            country_code: tools.country_code
+            min_price: tools.min_price
+            max_price: tools.max_price
+            currency: tools.currency
+            compact: tools.compact
+            limit: tools.limit
+          inputParameters:
+            - { name: q,            type: string }
+            - { name: domain,       type: string }
+            - { name: region,       type: string }
+            - { name: country_code, type: string }
+            - { name: min_price,    type: number }
+            - { name: max_price,    type: number }
+            - { name: currency,     type: string }
+            - { name: compact,      type: boolean }
+            - { name: limit,        type: integer }
+          outputParameters:
+            - { type: object, mapping: $. }
+        - name: get_product
+          description: Full product details and current price by ID.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: buywhere.getProduct
+          with: { id: tools.id }
+          inputParameters:
+            - { name: id, type: string, required: true }
+          outputParameters:
+            - { type: object, mapping: $. }
+        - name: compare_products
+          description: Side-by-side comparison of 2-10 products.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: buywhere.compareProducts
+          with: { ids: tools.ids }
+          inputParameters:
+            - { name: ids, type: string, required: true, description: "Comma-separated product IDs." }
+          outputParameters:
+            - { type: object, mapping: $. }
+        - name: get_deals
+          description: Discounted products sorted by discount percentage.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: buywhere.getDeals
+          with:
+            currency: tools.currency
+            country_code: tools.country_code
+            min_discount: tools.min_discount
+            limit: tools.limit
+          inputParameters:
+            - { name: currency,     type: string }
+            - { name: country_code, type: string }
+            - { name: min_discount, type: number }
+            - { name: limit,        type: integer }
+          outputParameters:
+            - { type: object, mapping: $. }
+        - name: list_categories
+          description: Browse available product categories.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: buywhere.listCategories
+          with: { currency: tools.currency }
+          inputParameters:
+            - { name: currency, type: string }
+          outputParameters:
+            - { type: object, mapping: $. }
+        - name: get_product_prices
+          description: Price history for a product over a look-back window (up to 90 days).
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: buywhere.getProductPrices
+          with: { id: tools.id, days: tools.days }
+          inputParameters:
+            - { name: id,   type: string, required: true }
+            - { name: days, type: integer }
+          outputParameters:
+            - { type: object, mapping: $. }
+binds: []

@@ -1,0 +1,128 @@
+extends:
+  - spectral:oas
+
+functions: []
+
+rules:
+  # Style
+  buywhere-summary-title-case:
+    description: Operation summaries should use Title Case.
+    message: "Operation summary should use Title Case: {{value}}"
+    severity: warn
+    given: "$.paths[*][get,put,post,delete,patch].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([A-Z0-9][A-Za-z0-9-]*)([ /-][A-Z0-9][A-Za-z0-9-]*)*( By [A-Z][A-Za-z]*)?$"
+
+  buywhere-operation-id-camelcase:
+    description: operationId should be lowerCamelCase verbNoun.
+    message: "operationId should be lowerCamelCase: {{value}}"
+    severity: error
+    given: "$.paths[*][get,put,post,delete,patch].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]+$"
+
+  buywhere-operation-id-required:
+    description: All operations must have an operationId.
+    severity: error
+    given: "$.paths[*][get,put,post,delete,patch]"
+    then:
+      field: operationId
+      function: truthy
+
+  buywhere-operation-tagged:
+    description: Every operation must be tagged for Documentation grouping.
+    severity: warn
+    given: "$.paths[*][get,put,post,delete,patch]"
+    then:
+      field: tags
+      function: truthy
+
+  buywhere-paths-kebab-case:
+    description: Path segments should be lowercase kebab-case (allows {paramName}).
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/[a-z0-9{}\\-/_]*$"
+      field: "@key"
+
+  buywhere-server-url-versioned:
+    description: Server URLs must include a version segment (e.g. /v1).
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "/v[0-9]+(/|$)"
+
+  buywhere-bearer-required:
+    description: Non-auth operations must require BearerAuth security.
+    severity: warn
+    given: "$.paths[?(@property != '/auth/register' && @property != '/auth')][get,put,post,delete,patch]"
+    then:
+      field: security
+      function: truthy
+
+  buywhere-product-id-uuid:
+    description: Product `id` path parameters must be format uuid.
+    severity: warn
+    given: "$.paths[*][get,put,post,delete,patch].parameters[?(@.in=='path' && @.name=='id')].schema"
+    then:
+      field: format
+      function: pattern
+      functionOptions:
+        match: "^uuid$"
+
+  buywhere-limit-bounded:
+    description: limit parameters should declare a maximum.
+    severity: warn
+    given: "$.paths[*][get].parameters[?(@.name=='limit')].schema"
+    then:
+      field: maximum
+      function: truthy
+
+  buywhere-currency-enum:
+    description: Currency parameter examples should be in the supported set (SGD, USD, VND, THB, MYR).
+    severity: info
+    given: "$.paths[*][get].parameters[?(@.name=='currency')].schema.default"
+    then:
+      function: enumeration
+      functionOptions:
+        values: ["SGD", "USD", "VND", "THB", "MYR"]
+
+  buywhere-401-response:
+    description: Authenticated operations must document a 401 response.
+    severity: warn
+    given: "$.paths[?(@property != '/auth/register' && @property != '/auth')][get,put,post,delete,patch].responses"
+    then:
+      field: "401"
+      function: truthy
+
+  buywhere-429-on-search:
+    description: Search endpoints must document a 429 (rate limit) response.
+    severity: warn
+    given: "$.paths['/products/search'][get].responses"
+    then:
+      field: "429"
+      function: truthy
+
+  buywhere-info-contact:
+    description: API info must include contact email.
+    severity: warn
+    given: "$.info.contact"
+    then:
+      field: email
+      function: truthy
+
+  buywhere-external-docs:
+    description: API should reference MCP / external documentation.
+    severity: info
+    given: "$"
+    then:
+      field: externalDocs
+      function: truthy

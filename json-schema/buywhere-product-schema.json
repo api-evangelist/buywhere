@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.buywhere.ai/schema/product.json",
+  "title": "BuyWhere Product",
+  "description": "Schema.org-compatible product representation returned by the BuyWhere Product Catalog API.",
+  "type": "object",
+  "required": ["id", "title", "price", "currency"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "brand": { "type": "string" },
+    "domain": {
+      "type": "string",
+      "description": "Source merchant platform.",
+      "examples": ["shopee", "lazada", "amazon", "walmart", "carousell", "best_denki", "fairprice"]
+    },
+    "url": { "type": "string", "format": "uri" },
+    "image_url": { "type": "string", "format": "uri" },
+    "price": { "type": "number", "minimum": 0 },
+    "original_price": { "type": "number", "minimum": 0 },
+    "discount_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+    "currency": { "type": "string", "enum": ["SGD", "USD", "VND", "THB", "MYR"] },
+    "country_code": { "type": "string", "enum": ["SG", "US", "VN", "TH", "MY"] },
+    "rating": { "type": "number", "minimum": 0, "maximum": 5 },
+    "review_count": { "type": "integer", "minimum": 0 },
+    "category_path": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "structured_specs": {
+      "type": "object",
+      "description": "Normalized structured attributes for agent reasoning.",
+      "additionalProperties": true
+    },
+    "comparison_attributes": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "normalized_price_usd": { "type": "number", "minimum": 0 },
+    "availability": {
+      "type": "string",
+      "enum": ["in_stock", "out_of_stock", "preorder", "limited"]
+    },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

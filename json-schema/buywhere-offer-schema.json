@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.buywhere.ai/schema/offer.json",
+  "title": "BuyWhere Offer",
+  "description": "An offer/listing for a product on a specific merchant (Schema.org Offer-compatible).",
+  "type": "object",
+  "required": ["product_id", "domain", "price", "currency", "url"],
+  "properties": {
+    "product_id": { "type": "string", "format": "uuid" },
+    "domain": {
+      "type": "string",
+      "description": "Merchant platform.",
+      "examples": ["shopee", "lazada", "amazon", "walmart", "carousell", "best_denki"]
+    },
+    "merchant_name": { "type": "string" },
+    "url": { "type": "string", "format": "uri" },
+    "price": { "type": "number", "minimum": 0 },
+    "original_price": { "type": "number" },
+    "discount_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+    "currency": { "type": "string" },
+    "country_code": { "type": "string" },
+    "availability": {
+      "type": "string",
+      "enum": ["in_stock", "out_of_stock", "preorder", "limited"]
+    },
+    "shipping": {
+      "type": "object",
+      "properties": {
+        "free": { "type": "boolean" },
+        "cost": { "type": "number" },
+        "currency": { "type": "string" },
+        "estimated_days_min": { "type": "integer" },
+        "estimated_days_max": { "type": "integer" }
+      }
+    },
+    "rating": { "type": "number" },
+    "review_count": { "type": "integer" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

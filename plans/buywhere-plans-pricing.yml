@@ -1,0 +1,112 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: BuyWhere
+providerId: buywhere
+created: '2026-05-16'
+modified: '2026-05-16'
+reconciled: false
+tags:
+  - E-commerce
+  - Shopping
+  - Price Comparison
+  - SEA
+  - Southeast Asia
+  - AI Agents
+  - Product Catalog
+  - MCP
+description: >-
+  BuyWhere publishes a free agent tier (60 rpm, 1,000 calls/month per
+  llms.txt) and signals a live production tier and a partner tier in its
+  MCP documentation. Pricing for live and partner tiers is not yet
+  published on a formal pricing page; this profile captures the publicly
+  documented tier structure and rate limits and is marked unreconciled
+  until BuyWhere publishes a formal pricing surface. Live/partner pricing
+  is captured as `contact_sales` placeholders.
+sources:
+  - https://api.buywhere.ai/
+  - https://api.buywhere.ai/llms.txt
+  - https://api.buywhere.ai/docs/guides/mcp
+  - https://api.buywhere.ai/.well-known/ai-plugin.json
+plans:
+  - id: buywhere-free
+    name: Free
+    type: freemium
+    description: |
+      Free agent tier for development, prototyping, and demos. API keys are prefixed
+      `bw_free_*` and issued instantly via `POST /v1/auth/register`. Rate-limited to
+      60 requests per minute and 1,000 calls per month.
+    entries:
+      - label: Per-minute rate limit
+        name: rate_limit_rpm
+        type: quota
+        metric: requests_per_minute
+        limit: 60
+        timeFrame: minute
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Monthly call allowance
+        name: monthly_calls
+        type: quota
+        metric: requests_per_month
+        limit: 1000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Full REST API surface
+      - name: MCP endpoint access (hosted + STDIO)
+      - name: 1.5M+ products across 20+ merchants
+      - name: Schema.org-compatible product/offer payloads
+      - name: Up to 90-day price history per product
+  - id: buywhere-live
+    name: Live (Production)
+    type: subscription
+    description: |
+      Production tier with `bw_live_*` keys rate-limited at 600 requests per minute.
+      Targeted at customer-facing shopping agents and assistants. Pricing has not
+      been published on a formal pricing page; contact api@buywhere.ai for
+      commercial terms.
+    entries:
+      - label: Per-minute rate limit
+        name: rate_limit_rpm
+        type: quota
+        metric: requests_per_minute
+        limit: 600
+        timeFrame: minute
+        geo: global
+        unit: 1
+        price: contact_sales
+        userMultiplied: false
+    elements:
+      - name: Production-grade SLA (target sub-100ms p99 in ap-southeast-1)
+      - name: Full REST and MCP surface
+      - name: Cross-country coverage (SG, US, VN, TH, MY)
+      - name: Higher rate limits suitable for live agent workloads
+  - id: buywhere-partner
+    name: Partner
+    type: enterprise
+    description: |
+      Partner / platform tier with `bw_partner_*` keys advertised as unlimited
+      rate. Intended for platform-data partners, OEM embeddings, and bulk
+      ingestion. Pricing and terms are negotiated via api@buywhere.ai.
+    entries:
+      - label: Rate limit
+        name: rate_limit
+        type: feature
+        metric: requests_per_minute
+        limit: unlimited
+        timeFrame: minute
+        price: contact_sales
+        userMultiplied: false
+    elements:
+      - name: Unlimited (negotiated) request rate
+      - name: Bulk and platform data access
+      - name: Dedicated partner support
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

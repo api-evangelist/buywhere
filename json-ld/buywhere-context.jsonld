@@ -1,0 +1,47 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "buywhere": "https://api.buywhere.ai/vocab#",
+    "id": "@id",
+    "type": "@type",
+    "Product": "schema:Product",
+    "Offer": "schema:Offer",
+    "ItemList": "schema:ItemList",
+    "Category": "buywhere:Category",
+    "title": "schema:name",
+    "description": "schema:description",
+    "brand": {
+      "@id": "schema:brand",
+      "@type": "schema:Brand"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "image_url": {
+      "@id": "schema:image",
+      "@type": "@id"
+    },
+    "price": "schema:price",
+    "original_price": "buywhere:originalPrice",
+    "discount_pct": "buywhere:discountPercentage",
+    "currency": "schema:priceCurrency",
+    "country_code": "schema:areaServed",
+    "rating": "schema:aggregateRating",
+    "review_count": "schema:reviewCount",
+    "category_path": "buywhere:categoryPath",
+    "structured_specs": "buywhere:structuredSpecs",
+    "comparison_attributes": "buywhere:comparisonAttributes",
+    "normalized_price_usd": "buywhere:normalizedPriceUSD",
+    "availability": "schema:itemAvailability",
+    "domain": "buywhere:merchantDomain",
+    "merchant_name": "schema:seller",
+    "updated_at": {
+      "@id": "schema:dateModified",
+      "@type": "schema:DateTime"
+    },
+    "slug": "buywhere:slug",
+    "parent_slug": "buywhere:parentSlug",
+    "product_count": "buywhere:productCount"
+  }
+}

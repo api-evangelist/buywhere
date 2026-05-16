@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.buywhere.ai/v1/auth/register",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "agent_name": "shopping-copilot",
+      "contact": "dev@example.com",
+      "use_case": "Price comparison assistant for Singapore consumers."
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "api_key": "bw_free_2f7a9c0b1d8e4f3a9c0b1d8e4f3a9c0b",
+      "tier": "free",
+      "rate_limit": {
+        "rpm": 60,
+        "daily": 1000
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: BuyWhere
+providerId: buywhere
+created: '2026-05-16'
+modified: '2026-05-16'
+reconciled: false
+tags:
+  - E-commerce
+  - Shopping
+  - Price Comparison
+  - SEA
+  - Southeast Asia
+  - AI Agents
+  - Rate Limiting
+  - MCP
+description: >-
+  BuyWhere applies per-key rate limits keyed off the API key prefix:
+  `bw_free_*` keys are limited to 60 requests/minute (and 1,000 calls/month
+  per llms.txt); `bw_live_*` keys to 600 requests/minute; `bw_partner_*`
+  keys are advertised as unlimited. Rate-limit responses use HTTP 429 and
+  the documented MCP error code `rate_limited`. Per-minute and daily quotas
+  are returned in the `/v1/auth/register` response under `rate_limit.rpm`
+  and `rate_limit.daily`. Marked unreconciled because BuyWhere has not yet
+  published a formal rate-limit reference page.
+sources:
+  - https://api.buywhere.ai/
+  - https://api.buywhere.ai/llms.txt
+  - https://api.buywhere.ai/docs/guides/mcp
+  - https://api.buywhere.ai/openapi.json
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+headers:
+  retryAfter: Retry-After
+limits:
+  - name: Free tier per-minute rate limit
+    scope: api-key
+    keyPrefix: bw_free_
+    metric: requests_per_minute
+    limit: 60
+    timeFrame: minute
+    notes: Documented in the MCP guide under "Authentication".
+  - name: Free tier monthly quota
+    scope: api-key
+    keyPrefix: bw_free_
+    metric: requests_per_month
+    limit: 1000
+    timeFrame: month
+    notes: 'Documented in llms.txt as "Free tier: 1,000 API calls/month."'
+  - name: Live tier per-minute rate limit
+    scope: api-key
+    keyPrefix: bw_live_
+    metric: requests_per_minute
+    limit: 600
+    timeFrame: minute
+    notes: Documented in the MCP guide as the production tier rate.
+  - name: Partner tier rate limit
+    scope: api-key
+    keyPrefix: bw_partner_
+    metric: requests_per_minute
+    limit: unlimited
+    timeFrame: minute
+    notes: Advertised as unlimited for platform data partners; subject to negotiated agreement.
+policies:
+  - name: MCP-aware error handling
+    description: |
+      MCP responses surface the `rate_limited` error code; REST responses use HTTP 429.
+      Implement exponential backoff and respect `Retry-After`.
+  - name: Compact mode reduces effective cost
+    description: |
+      `compact=true` on /products/search returns a minimal payload; agents that only need
+      ranking attributes should prefer compact responses to lower bandwidth and processing.
+  - name: Cache friendly
+    description: |
+      `meta.cached` indicates whether the response was served from cache. Stable queries
+      (e.g., category listings) frequently return cached responses with sub-50ms latency.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

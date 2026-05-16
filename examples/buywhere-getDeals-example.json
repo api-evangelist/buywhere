@@ -1,0 +1,45 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.buywhere.ai/v1/products/deals?country_code=SG&min_discount=20&limit=2",
+    "headers": {
+      "Authorization": "Bearer bw_live_xxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": "11111111-1111-1111-1111-111111111111",
+          "title": "Dyson V12 Detect Slim Cordless Vacuum",
+          "brand": "Dyson",
+          "domain": "lazada",
+          "price": 599.00,
+          "original_price": 899.00,
+          "discount_pct": 33.4,
+          "currency": "SGD",
+          "country_code": "SG",
+          "category_path": ["Home", "Appliances", "Vacuums"],
+          "availability": "in_stock"
+        },
+        {
+          "id": "22222222-2222-2222-2222-222222222222",
+          "title": "Nintendo Switch OLED",
+          "brand": "Nintendo",
+          "domain": "shopee",
+          "price": 419.00,
+          "original_price": 549.00,
+          "discount_pct": 23.7,
+          "currency": "SGD",
+          "country_code": "SG",
+          "availability": "in_stock"
+        }
+      ],
+      "meta": {
+        "total": 312,
+        "response_time_ms": 38
+      }
+    }
+  }
+}

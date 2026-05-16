@@ -1,0 +1,28 @@
+{
+  "name": "BuyWhereOffer",
+  "version": "1.0.0",
+  "description": "JSON Structure for an offer (merchant listing) of a BuyWhere product. Aligns with Schema.org Offer.",
+  "type": "object",
+  "fields": [
+    { "name": "product_id", "type": "uuid", "required": true },
+    { "name": "domain", "type": "enum", "values": ["shopee", "lazada", "amazon", "walmart", "carousell", "best_denki", "fairprice"], "required": true },
+    { "name": "merchant_name", "type": "string" },
+    { "name": "url", "type": "uri", "required": true, "schemaOrg": "schema:offers.url" },
+    { "name": "price", "type": "decimal", "required": true, "schemaOrg": "schema:offers.price" },
+    { "name": "original_price", "type": "decimal" },
+    { "name": "discount_pct", "type": "decimal", "range": [0, 100] },
+    { "name": "currency", "type": "string", "required": true, "schemaOrg": "schema:priceCurrency" },
+    { "name": "country_code", "type": "string" },
+    { "name": "availability", "type": "enum", "values": ["in_stock", "out_of_stock", "preorder", "limited"], "schemaOrg": "schema:offers.availability" },
+    { "name": "shipping", "type": "object", "description": "Shipping options for this offer.", "fields": [
+      { "name": "free", "type": "boolean" },
+      { "name": "cost", "type": "decimal" },
+      { "name": "currency", "type": "string" },
+      { "name": "estimated_days_min", "type": "integer" },
+      { "name": "estimated_days_max", "type": "integer" }
+    ]},
+    { "name": "rating", "type": "decimal", "range": [0, 5] },
+    { "name": "review_count", "type": "integer" },
+    { "name": "updated_at", "type": "datetime" }
+  ]
+}

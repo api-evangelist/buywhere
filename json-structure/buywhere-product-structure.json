@@ -1,0 +1,33 @@
+{
+  "name": "BuyWhereProduct",
+  "version": "1.0.0",
+  "description": "JSON Structure description of the BuyWhere product entity. Maps merchant-agnostic catalog data to Schema.org Product/Offer shapes for agent consumption.",
+  "type": "object",
+  "fields": [
+    { "name": "id", "type": "uuid", "required": true, "schemaOrg": "schema:identifier", "description": "Stable BuyWhere catalog identifier." },
+    { "name": "title", "type": "string", "required": true, "schemaOrg": "schema:name" },
+    { "name": "description", "type": "string", "schemaOrg": "schema:description" },
+    { "name": "brand", "type": "string", "schemaOrg": "schema:brand" },
+    { "name": "domain", "type": "enum", "values": ["shopee", "lazada", "amazon", "walmart", "carousell", "best_denki", "fairprice"], "description": "Source merchant platform." },
+    { "name": "url", "type": "uri", "schemaOrg": "schema:url" },
+    { "name": "image_url", "type": "uri", "schemaOrg": "schema:image" },
+    { "name": "price", "type": "decimal", "required": true, "schemaOrg": "schema:offers.price" },
+    { "name": "original_price", "type": "decimal" },
+    { "name": "discount_pct", "type": "decimal", "range": [0, 100] },
+    { "name": "currency", "type": "enum", "values": ["SGD", "USD", "VND", "THB", "MYR"], "required": true, "schemaOrg": "schema:priceCurrency" },
+    { "name": "country_code", "type": "enum", "values": ["SG", "US", "VN", "TH", "MY"], "schemaOrg": "schema:areaServed" },
+    { "name": "rating", "type": "decimal", "range": [0, 5], "schemaOrg": "schema:aggregateRating.ratingValue" },
+    { "name": "review_count", "type": "integer", "schemaOrg": "schema:aggregateRating.reviewCount" },
+    { "name": "category_path", "type": "array<string>", "description": "Breadcrumb path from root category to leaf." },
+    { "name": "structured_specs", "type": "object", "description": "Normalized brand/model/color/connectivity attributes for agent reasoning.", "additionalProperties": true },
+    { "name": "comparison_attributes", "type": "object", "description": "Attributes prepared for compare_products tool.", "additionalProperties": true },
+    { "name": "normalized_price_usd", "type": "decimal" },
+    { "name": "availability", "type": "enum", "values": ["in_stock", "out_of_stock", "preorder", "limited"], "schemaOrg": "schema:offers.availability" },
+    { "name": "updated_at", "type": "datetime", "schemaOrg": "schema:dateModified" }
+  ],
+  "agentNotes": [
+    "Use compact mode in /products/search to limit payload to fields most useful for ranking.",
+    "Prefer normalized_price_usd when comparing across countries.",
+    "structured_specs and comparison_attributes are pre-normalized; do not re-parse the title."
+  ]
+}

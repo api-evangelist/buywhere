@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.buywhere.ai/v1/categories?currency=SGD",
+    "headers": {
+      "Authorization": "Bearer bw_live_xxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        { "slug": "electronics", "name": "Electronics", "product_count": 412300, "parent_slug": null },
+        { "slug": "home-appliances", "name": "Home Appliances", "product_count": 184500, "parent_slug": null },
+        { "slug": "fashion", "name": "Fashion", "product_count": 612400, "parent_slug": null },
+        { "slug": "beauty-personal-care", "name": "Beauty & Personal Care", "product_count": 221000, "parent_slug": null },
+        { "slug": "groceries", "name": "Groceries", "product_count": 96200, "parent_slug": null }
+      ]
+    }
+  }
+}

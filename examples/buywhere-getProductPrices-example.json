@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.buywhere.ai/v1/products/8a2c3a8e-1234-5678-9abc-def012345678/prices?days=30",
+    "headers": {
+      "Authorization": "Bearer bw_live_xxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "8a2c3a8e-1234-5678-9abc-def012345678",
+      "currency": "SGD",
+      "days": 30,
+      "points": [
+        { "date": "2026-04-16", "price": 649.00, "currency": "SGD" },
+        { "date": "2026-04-23", "price": 629.00, "currency": "SGD" },
+        { "date": "2026-04-30", "price": 599.00, "currency": "SGD" },
+        { "date": "2026-05-07", "price": 559.00, "currency": "SGD" },
+        { "date": "2026-05-14", "price": 549.00, "currency": "SGD" }
+      ],
+      "stats": {
+        "min": 549.00,
+        "max": 649.00,
+        "avg": 597.00,
+        "current": 549.00
+      }
+    }
+  }
+}

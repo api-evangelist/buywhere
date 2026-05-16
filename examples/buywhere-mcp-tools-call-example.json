@@ -1,0 +1,40 @@
+{
+  "transport": "MCP over HTTP",
+  "request": {
+    "method": "POST",
+    "url": "https://api.buywhere.ai/mcp",
+    "headers": {
+      "Authorization": "Bearer bw_live_xxx",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "jsonrpc": "2.0",
+      "method": "tools/call",
+      "params": {
+        "name": "search_products",
+        "arguments": {
+          "q": "wireless headphones",
+          "region": "us",
+          "max_price": 150,
+          "compact": true
+        }
+      },
+      "id": 1
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"data\":[{\"id\":\"...\",\"title\":\"Sony WH-CH720N\",\"price\":129.99,\"currency\":\"USD\",\"domain\":\"amazon\"}],\"meta\":{\"total\":42,\"response_time_ms\":38}}"
+          }
+        ]
+      }
+    }
+  }
+}

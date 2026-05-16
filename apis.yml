@@ -3,10 +3,18 @@ url: https://raw.githubusercontent.com/api-evangelist/buywhere/refs/heads/main/a
 name: BuyWhere
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-description: 'Agent-native product catalog API for Southeast Asia e-commerce — Shopee, Lazada, Carousell.'
+description: >-
+  Agent-native, MCP-native product catalog and price comparison API for Southeast
+  Asia and US e-commerce. Search 1.5M+ products across Shopee, Lazada, Carousell,
+  FairPrice, Best Denki, Amazon, Walmart, Best Buy, and 20+ retailers. AI agents
+  and MCP clients discover and route purchases to local merchants through a hosted
+  MCP HTTP endpoint at api.buywhere.ai/mcp or via the @buywhere/mcp-server STDIO
+  package.
 created: '2026-05-16'
 modified: '2026-05-16'
 specificationVersion: '0.19'
+position: Consumer
+access: 3rd-Party
 tags:
   - E-commerce
   - Shopping
@@ -15,13 +23,195 @@ tags:
   - Southeast Asia
   - AI Agents
   - Product Catalog
-
+apis:
+  - aid: buywhere:product-catalog-api
+    name: BuyWhere Product Catalog API
+    description: >-
+      Agent-native REST and MCP product catalog covering 1.5M+ products across
+      Southeast Asian and US e-commerce platforms. Operations include keyword
+      search, side-by-side comparison, deals discovery, price history, and
+      category browsing. Responses are Schema.org-compatible (Product, Offer,
+      ItemList) and include normalized structured_specs and comparison_attributes
+      so LLMs can rank and reason without scraping. Same operations are exposed
+      to MCP clients at api.buywhere.ai/mcp.
+    humanURL: https://api.buywhere.ai/
+    baseURL: https://api.buywhere.ai/v1
+    tags:
+      - E-commerce
+      - Shopping
+      - Price Comparison
+      - SEA
+      - Southeast Asia
+      - AI Agents
+      - Product Catalog
+      - MCP
+    properties:
+      - url: openapi/buywhere-openapi.yml
+        type: OpenAPI
+      - url: https://api.buywhere.ai/openapi.json
+        type: OpenAPI
+      - url: https://api.buywhere.ai/
+        type: Documentation
+      - url: https://api.buywhere.ai/docs/guides/mcp
+        type: MCPDocumentation
+      - url: https://api.buywhere.ai/mcp
+        type: MCPEndpoint
+      - url: https://api.buywhere.ai/.well-known/ai-plugin.json
+        type: PluginManifest
+      - url: https://api.buywhere.ai/llms.txt
+        type: LLMsTxt
+      - url: capabilities/shared/buywhere-product-catalog-api.yaml
+        type: NaftikoCapability
+      - url: capabilities/price-comparison-shopping-agent.yaml
+        type: NaftikoCapability
+      - url: json-schema/buywhere-product-schema.json
+        type: JSONSchema
+      - url: json-schema/buywhere-offer-schema.json
+        type: JSONSchema
+      - url: json-schema/buywhere-price-history-schema.json
+        type: JSONSchema
+      - url: json-schema/buywhere-category-schema.json
+        type: JSONSchema
+      - url: json-structure/buywhere-product-structure.json
+        type: JSONStructure
+      - url: json-structure/buywhere-offer-structure.json
+        type: JSONStructure
+      - url: rules/buywhere-rules.yml
+        type: SpectralRules
+      - url: examples/buywhere-searchProducts-example.json
+        type: Example
+      - url: examples/buywhere-getDeals-example.json
+        type: Example
+      - url: examples/buywhere-compareProducts-example.json
+        type: Example
+      - url: examples/buywhere-getProduct-example.json
+        type: Example
+      - url: examples/buywhere-getProductPrices-example.json
+        type: Example
+      - url: examples/buywhere-listCategories-example.json
+        type: Example
+      - url: examples/buywhere-getCategoryProducts-example.json
+        type: Example
+      - url: examples/buywhere-registerAgent-example.json
+        type: Example
+      - url: examples/buywhere-mcp-tools-call-example.json
+        type: Example
+    contact:
+      - FN: BuyWhere API
+        email: api@buywhere.ai
+sdks:
+  - name: BuyWhere MCP Server (Node)
+    url: https://github.com/BuyWhere/buywhere-mcp
+    type: SDK
+    language: JavaScript
+    description: BuyWhere MCP server — search and compare products from SG, SEA, and US markets via Model Context Protocol.
+  - name: '@buywhere/mcp-server (npm)'
+    url: https://www.npmjs.com/package/@buywhere/mcp-server
+    type: SDK
+    language: JavaScript
+    description: Published MCP STDIO server package — `npx -y @buywhere/mcp-server`.
+  - name: buywhere-py
+    url: https://github.com/BuyWhere/buywhere-py
+    type: SDK
+    language: Python
+    description: Official Python SDK for the BuyWhere Product Catalog API.
+  - name: buywhere-llamaindex
+    url: https://github.com/BuyWhere/buywhere-llamaindex
+    type: SDK
+    language: Python
+    description: LlamaIndex FunctionTool wrappers for the BuyWhere product catalog API.
+  - name: buywhere-cursor-plugin
+    url: https://github.com/BuyWhere/buywhere-cursor-plugin
+    type: SDK
+    language: Python
+    description: BuyWhere MCP Tools for Cursor AI — product search, price comparison, and deals.
+  - name: buywhere-mcp-action
+    url: https://github.com/BuyWhere/buywhere-mcp-action
+    type: GitHubAction
+    description: BuyWhere MCP Server packaged as a GitHub Action for product catalog access in workflows.
+integrations:
+  - name: Claude Desktop
+    type: MCPClient
+    description: Configure under `mcpServers.buywhere` via STDIO (`npx -y @buywhere/mcp-server`) or hosted HTTP (`https://api.buywhere.ai/mcp`).
+    url: https://api.buywhere.ai/docs/guides/mcp
+  - name: Cursor
+    type: MCPClient
+    description: Configure in `.cursor/mcp.json` with the BuyWhere MCP package and BUYWHERE_API_KEY env var.
+    url: https://api.buywhere.ai/docs/guides/mcp
+  - name: LlamaIndex
+    type: AIFramework
+    description: FunctionTool wrappers via the buywhere-llamaindex package.
+    url: https://github.com/BuyWhere/buywhere-llamaindex
+  - name: LangChain
+    type: AIFramework
+    description: BuyWhere MCP server docs proposed for LangChain documentation (PR in flight).
+    url: https://github.com/BuyWhere/langchain-docs-pr
+  - name: Custom MCP HTTP clients
+    type: MCPClient
+    description: Any MCP-compatible client can call `POST https://api.buywhere.ai/mcp` with a Bearer token.
+    url: https://api.buywhere.ai/mcp
+solutions:
+  - name: Price Comparison Agents
+    description: Search and compare prices across Southeast Asian and US merchants in a single agent turn.
+  - name: Deal Alert Bots
+    description: Poll /products/deals with country and discount filters; match against keyword watchlists.
+  - name: Shopping Assistants
+    description: Conversational shopping helpers that route to local merchants in SG, US, VN, TH, MY.
+  - name: Market Research Tools
+    description: Cross-merchant price and availability snapshots, plus 90-day price history.
+  - name: Cross-Border Commerce
+    description: Normalized USD pricing and country-aware filtering for cross-border buying agents.
+useCases:
+  - find_best_value: Search and side-by-side compare top candidates by normalized USD price.
+  - deal_alert: Poll active discounts in a target country and filter by keyword.
+  - product_research: Discover categories and pull structured specs to feed an LLM buying guide.
 common:
   - url: https://api.buywhere.ai/
+    name: Website
     type: Website
   - url: https://api.buywhere.ai/
+    name: API Documentation
     type: Documentation
-  - url: https://api.buywhere.ai/
-    type: APIsJSON
+  - url: https://api.buywhere.ai/docs/guides/mcp
+    name: MCP Integration Guide
+    type: MCPDocumentation
+  - url: https://api.buywhere.ai/mcp
+    name: MCP Endpoint
+    type: MCPEndpoint
+  - url: https://api.buywhere.ai/openapi.json
+    name: OpenAPI Specification (Upstream)
+    type: OpenAPI
+  - url: https://api.buywhere.ai/.well-known/ai-plugin.json
+    name: AI Plugin Manifest
+    type: PluginManifest
+  - url: https://api.buywhere.ai/llms.txt
+    name: LLMs.txt
+    type: LLMsTxt
+  - url: https://api.buywhere.ai/us/
+    name: BuyWhere US Edition
+    type: Website
+  - url: https://github.com/BuyWhere
+    name: GitHub Organization
+    type: GitHub
+  - url: https://github.com/BuyWhere/buywhere
+    name: Primary GitHub Repository
+    type: GitHub
+  - url: plans/buywhere-plans-pricing.yml
+    name: Plans and Pricing
+    type: Plans
+  - url: rate-limits/buywhere-rate-limits.yml
+    name: Rate Limits
+    type: RateLimits
+  - url: finops/buywhere-finops.yml
+    name: FinOps
+    type: FinOps
+  - url: vocabulary/buywhere-vocabulary.yml
+    name: Vocabulary
+    type: Vocabulary
+  - url: json-ld/buywhere-context.jsonld
+    name: JSON-LD Context
+    type: JSONLD
 url-source: https://api.buywhere.ai/
-apis: []
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

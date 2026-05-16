@@ -1,0 +1,94 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: BuyWhere
+providerId: buywhere
+created: '2026-05-16'
+modified: '2026-05-16'
+reconciled: false
+tags:
+  - E-commerce
+  - Shopping
+  - AI Agents
+  - FinOps
+  - FOCUS
+  - MCP
+description: >-
+  FOCUS-aligned FinOps profile for BuyWhere. BuyWhere publishes a free
+  agent tier (60 rpm, 1,000 calls/month) and signals live and partner
+  tiers in its MCP documentation; pricing for paid tiers has not been
+  published on a formal pricing page and is contact-sales. This profile
+  captures the metering surface (per-key, per-tier rate limits and
+  monthly quotas) and is marked unreconciled until BuyWhere publishes a
+  formal commercial pricing surface.
+sources:
+  - https://api.buywhere.ai/
+  - https://api.buywhere.ai/llms.txt
+  - https://api.buywhere.ai/docs/guides/mcp
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: BuyWhere
+serviceCategory: Commerce / Product Catalog
+billingModel:
+  pricingCategory: Freemium with Contact-Sales Paid Tiers
+  billingFrequency: NotPublished
+  billingCurrency: USD
+  chargeCategories:
+    - Usage
+focusColumns:
+  ServiceName: BuyWhere Product Catalog API
+  ServiceCategory: Commerce / Product Catalog
+  ProviderName: BuyWhere
+  PublisherName: BuyWhere
+  InvoiceIssuerName: BuyWhere
+  BillingCurrency: USD
+meters:
+  - name: api_calls
+    unit: request
+    aggregation: sum
+    dimensions:
+      - api_key_tier
+      - api_key
+      - operation
+      - country_code
+      - domain
+  - name: mcp_tool_invocations
+    unit: invocation
+    aggregation: sum
+    dimensions:
+      - api_key_tier
+      - api_key
+      - tool
+  - name: monthly_quota_consumption
+    unit: request
+    aggregation: sum
+    dimensions:
+      - api_key
+      - api_key_tier
+principles:
+  - name: Visibility
+    description: |
+      Track call volume per agent / API key per operation. The free tier exposes a 1,000
+      calls/month ceiling, so visibility is essential to predict upgrade timing.
+  - name: Allocation
+    description: |
+      Tag calls by agent application, MCP tool name, and country_code so usage is
+      attributable when paid tiers ship. The api_key prefix (`bw_free_`, `bw_live_`,
+      `bw_partner_`) is the primary cost-pool dimension.
+  - name: Optimization
+    description: |
+      Use `compact=true` on /products/search to lower per-call processing cost; respect
+      `meta.cached` to identify free cache hits; respect `Retry-After` to avoid 429-induced
+      retry storms. For agentic workflows, compose multiple operations into a single MCP
+      tool call (find_best_value) to amortize round-trip overhead.
+  - name: Accountability
+    description: |
+      Designate an owner for BuyWhere usage tracking; revisit when BuyWhere publishes formal
+      pricing and metering policies.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

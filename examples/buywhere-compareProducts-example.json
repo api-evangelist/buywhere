@@ -1,0 +1,49 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.buywhere.ai/v1/products/compare?ids=8a2c3a8e-1234-5678-9abc-def012345678,9b3d4b9f-2345-6789-abcd-ef0123456789",
+    "headers": {
+      "Authorization": "Bearer bw_live_xxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": "8a2c3a8e-1234-5678-9abc-def012345678",
+          "title": "Sony WH-1000XM5",
+          "brand": "Sony",
+          "price": 549.00,
+          "currency": "SGD",
+          "rating": 4.8,
+          "category_path": ["Electronics", "Audio", "Headphones"],
+          "comparison_attributes": {
+            "noise_cancelling": true,
+            "battery_hours": 30,
+            "wireless": true
+          },
+          "normalized_price_usd": 408.20
+        },
+        {
+          "id": "9b3d4b9f-2345-6789-abcd-ef0123456789",
+          "title": "Bose QuietComfort Ultra",
+          "brand": "Bose",
+          "price": 599.00,
+          "currency": "SGD",
+          "rating": 4.7,
+          "category_path": ["Electronics", "Audio", "Headphones"],
+          "comparison_attributes": {
+            "noise_cancelling": true,
+            "battery_hours": 24,
+            "wireless": true
+          },
+          "normalized_price_usd": 445.40
+        }
+      ],
+      "meta": {
+        "count": 2
+      }
+    }
+  }
+}

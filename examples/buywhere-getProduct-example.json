@@ -1,0 +1,46 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.buywhere.ai/v1/products/8a2c3a8e-1234-5678-9abc-def012345678",
+    "headers": {
+      "Authorization": "Bearer bw_live_xxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "8a2c3a8e-1234-5678-9abc-def012345678",
+      "title": "Sony WH-1000XM5 Wireless Noise-Cancelling Headphones",
+      "description": "Industry-leading noise cancellation with two processors controlling eight microphones.",
+      "brand": "Sony",
+      "domain": "lazada",
+      "url": "https://www.lazada.sg/products/sony-wh1000xm5",
+      "image_url": "https://cdn.buywhere.ai/p/sony-wh1000xm5.jpg",
+      "price": 549.00,
+      "original_price": 649.00,
+      "discount_pct": 15.4,
+      "currency": "SGD",
+      "country_code": "SG",
+      "rating": 4.8,
+      "review_count": 1240,
+      "category_path": ["Electronics", "Audio", "Headphones"],
+      "structured_specs": {
+        "brand": "Sony",
+        "model": "WH-1000XM5",
+        "color": "Black",
+        "connectivity": "Bluetooth 5.2",
+        "noise_cancelling": true,
+        "battery_hours": 30,
+        "weight_g": 250
+      },
+      "comparison_attributes": {
+        "noise_cancelling": true,
+        "battery_hours": 30,
+        "wireless": true
+      },
+      "normalized_price_usd": 408.20,
+      "availability": "in_stock",
+      "updated_at": "2026-05-15T22:14:00Z"
+    }
+  }
+}
