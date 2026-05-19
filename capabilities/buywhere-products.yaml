@@ -1,0 +1,323 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BuyWhere Product Catalog API — Products
+  description: 'BuyWhere Product Catalog API — Products. 5 operations. Lead operation: Compare Multiple Products Side-By-Side.
+    Self-contained Naftiko capability covering one Buywhere business surface.'
+  tags:
+  - Buywhere
+  - Products
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUYWHERE_API_KEY: BUYWHERE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: buywhere-products
+    baseUri: https://api.buywhere.ai/v1
+    description: BuyWhere Product Catalog API — Products business capability. Self-contained, no shared references.
+    resources:
+    - name: products-compare
+      path: /products/compare
+      operations:
+      - name: compareproducts
+        method: GET
+        description: Compare Multiple Products Side-By-Side
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          description: Comma-separated product IDs (2–10).
+          required: true
+    - name: products-deals
+      path: /products/deals
+      operations:
+      - name: getdeals
+        method: GET
+        description: List Discounted Products By Discount Percentage
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: currency
+          in: query
+          type: string
+        - name: country_code
+          in: query
+          type: string
+          description: When set, only deals from that country are returned.
+        - name: min_discount
+          in: query
+          type: number
+          description: Minimum discount percentage (0–90).
+        - name: limit
+          in: query
+          type: integer
+        - name: offset
+          in: query
+          type: integer
+    - name: products-search
+      path: /products/search
+      operations:
+      - name: searchproducts
+        method: GET
+        description: Search Products By Keyword
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          description: Keyword search query (full-text).
+        - name: domain
+          in: query
+          type: string
+          description: Filter by merchant platform (e.g. `lazada`, `shopee`, `amazon`, `walmart`, `carousell`).
+        - name: region
+          in: query
+          type: string
+          description: Filter by region.
+        - name: country_code
+          in: query
+          type: string
+          description: Filter by ISO country code. When provided without an explicit `currency` param,
+        - name: min_price
+          in: query
+          type: number
+          description: Minimum price in the active currency.
+        - name: max_price
+          in: query
+          type: number
+          description: Maximum price in the active currency.
+        - name: currency
+          in: query
+          type: string
+          description: Explicit currency override. If omitted and `country_code` is set, currency is inferred from `country_code`.
+        - name: compact
+          in: query
+          type: boolean
+          description: Return a minimal payload for AI agents (id, title, price, currency, url, structured_specs, comparison_attributes).
+        - name: limit
+          in: query
+          type: integer
+        - name: offset
+          in: query
+          type: integer
+    - name: products-id
+      path: /products/{id}
+      operations:
+      - name: getproduct
+        method: GET
+        description: Get Product By ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+    - name: products-id-prices
+      path: /products/{id}/prices
+      operations:
+      - name: getproductprices
+        method: GET
+        description: Get Product Price History
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: days
+          in: query
+          type: integer
+          description: Look-back window in days.
+    authentication:
+      type: bearer
+      token: '{{env.BUYWHERE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: buywhere-products-rest
+    port: 8080
+    description: REST adapter for BuyWhere Product Catalog API — Products. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/products/compare
+      name: products-compare
+      description: REST surface for products-compare.
+      operations:
+      - method: GET
+        name: compareproducts
+        description: Compare Multiple Products Side-By-Side
+        call: buywhere-products.compareproducts
+        with:
+          ids: rest.ids
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/products/deals
+      name: products-deals
+      description: REST surface for products-deals.
+      operations:
+      - method: GET
+        name: getdeals
+        description: List Discounted Products By Discount Percentage
+        call: buywhere-products.getdeals
+        with:
+          currency: rest.currency
+          country_code: rest.country_code
+          min_discount: rest.min_discount
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/products/search
+      name: products-search
+      description: REST surface for products-search.
+      operations:
+      - method: GET
+        name: searchproducts
+        description: Search Products By Keyword
+        call: buywhere-products.searchproducts
+        with:
+          q: rest.q
+          domain: rest.domain
+          region: rest.region
+          country_code: rest.country_code
+          min_price: rest.min_price
+          max_price: rest.max_price
+          currency: rest.currency
+          compact: rest.compact
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/products/{id}
+      name: products-id
+      description: REST surface for products-id.
+      operations:
+      - method: GET
+        name: getproduct
+        description: Get Product By ID
+        call: buywhere-products.getproduct
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/products/{id}/prices
+      name: products-id-prices
+      description: REST surface for products-id-prices.
+      operations:
+      - method: GET
+        name: getproductprices
+        description: Get Product Price History
+        call: buywhere-products.getproductprices
+        with:
+          id: rest.id
+          days: rest.days
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: buywhere-products-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BuyWhere Product Catalog API — Products. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: compare-multiple-products-side-side
+      description: Compare Multiple Products Side-By-Side
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: buywhere-products.compareproducts
+      with:
+        ids: tools.ids
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-discounted-products-discount-percentage
+      description: List Discounted Products By Discount Percentage
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: buywhere-products.getdeals
+      with:
+        currency: tools.currency
+        country_code: tools.country_code
+        min_discount: tools.min_discount
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-products-keyword
+      description: Search Products By Keyword
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: buywhere-products.searchproducts
+      with:
+        q: tools.q
+        domain: tools.domain
+        region: tools.region
+        country_code: tools.country_code
+        min_price: tools.min_price
+        max_price: tools.max_price
+        currency: tools.currency
+        compact: tools.compact
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-product-id
+      description: Get Product By ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: buywhere-products.getproduct
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-product-price-history
+      description: Get Product Price History
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: buywhere-products.getproductprices
+      with:
+        id: tools.id
+        days: tools.days
+      outputParameters:
+      - type: object
+        mapping: $.

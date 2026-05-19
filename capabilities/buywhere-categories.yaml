@@ -1,0 +1,135 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BuyWhere Product Catalog API — Categories
+  description: 'BuyWhere Product Catalog API — Categories. 2 operations. Lead operation: List Top-Level Product Categories.
+    Self-contained Naftiko capability covering one Buywhere business surface.'
+  tags:
+  - Buywhere
+  - Categories
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUYWHERE_API_KEY: BUYWHERE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: buywhere-categories
+    baseUri: https://api.buywhere.ai/v1
+    description: BuyWhere Product Catalog API — Categories business capability. Self-contained, no shared references.
+    resources:
+    - name: categories
+      path: /categories
+      operations:
+      - name: listcategories
+        method: GET
+        description: List Top-Level Product Categories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: currency
+          in: query
+          type: string
+    - name: categories-slug
+      path: /categories/{slug}
+      operations:
+      - name: getcategoryproducts
+        method: GET
+        description: Get Products Within A Category
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: slug
+          in: path
+          type: string
+          description: Category slug (from `/categories`).
+          required: true
+        - name: currency
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: integer
+        - name: offset
+          in: query
+          type: integer
+    authentication:
+      type: bearer
+      token: '{{env.BUYWHERE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: buywhere-categories-rest
+    port: 8080
+    description: REST adapter for BuyWhere Product Catalog API — Categories. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/categories
+      name: categories
+      description: REST surface for categories.
+      operations:
+      - method: GET
+        name: listcategories
+        description: List Top-Level Product Categories
+        call: buywhere-categories.listcategories
+        with:
+          currency: rest.currency
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/categories/{slug}
+      name: categories-slug
+      description: REST surface for categories-slug.
+      operations:
+      - method: GET
+        name: getcategoryproducts
+        description: Get Products Within A Category
+        call: buywhere-categories.getcategoryproducts
+        with:
+          slug: rest.slug
+          currency: rest.currency
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: buywhere-categories-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BuyWhere Product Catalog API — Categories. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-top-level-product-categories
+      description: List Top-Level Product Categories
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: buywhere-categories.listcategories
+      with:
+        currency: tools.currency
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-products-within-category
+      description: Get Products Within A Category
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: buywhere-categories.getcategoryproducts
+      with:
+        slug: tools.slug
+        currency: tools.currency
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
