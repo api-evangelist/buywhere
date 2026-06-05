@@ -1,90 +1,97 @@
 # BuyWhere (buywhere)
 
-Agent-native, MCP-native product catalog and price comparison API for Southeast Asia and US e-commerce. Search 1.5M+ products across Shopee, Lazada, Carousell, FairPrice, Best Denki, Amazon, Walmart, Best Buy, and 20+ retailers. AI agents and MCP clients discover and route purchases to local merchants through a hosted MCP HTTP endpoint at `api.buywhere.ai/mcp` or via the `@buywhere/mcp-server` STDIO package.
+Agent-native, MCP-native product catalog and price comparison API for Southeast Asia and US e-commerce. Search 1.5M+ products across Shopee, Lazada, Carousell, FairPrice, Best Denki, Amazon, Walmart, Best Buy, and 20+ retailers. AI agents and MCP clients discover and route purchases to local merchants through a hosted MCP HTTP endpoint at api.buywhere.ai/mcp or via the @buywhere/mcp-server STDIO package.
 
-- **Source:** https://api.buywhere.ai/
-- **OpenAPI (upstream):** https://api.buywhere.ai/openapi.json
-- **MCP endpoint:** https://api.buywhere.ai/mcp
-- **MCP integration guide:** https://api.buywhere.ai/docs/guides/mcp
-- **AI plugin manifest:** https://api.buywhere.ai/.well-known/ai-plugin.json
-- **llms.txt:** https://api.buywhere.ai/llms.txt
-- **GitHub org:** https://github.com/BuyWhere
-- **api-search issue:** [#25](https://github.com/api-search/network/issues/25)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/buywhere/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/buywhere/refs/heads/main/apis.yml)
 
-## MCP positioning
+## Scope
 
-BuyWhere is **MCP-native**. The same operations exposed at `https://api.buywhere.ai/v1/*` over REST are available to MCP-compatible AI agents (Claude Desktop, Cursor, ChatGPT, custom clients) at `POST https://api.buywhere.ai/mcp`, and as a local STDIO server via `npx -y @buywhere/mcp-server`. The hosted MCP server publishes the following tools:
+- **Type:** Index
+- **Position:** Consumer
+- **Access:** 3rd-Party
 
-| MCP tool | Description |
-| --- | --- |
-| `search_products` | Keyword search with price / region / country / merchant filters. |
-| `get_product` | Full product detail by ID. |
-| `compare_products` | Side-by-side comparison of 2–10 products. |
-| `get_deals` | Discounted products sorted by discount percentage. |
-| `list_categories` | Browse available categories. |
-| `find_best_price` | Cheapest current listing for a product across all merchants. |
+## Tags
 
-## Operations
+- E-commerce
+- Shopping
+- Price Comparison
+- SEA
+- Southeast Asia
+- AI Agents
+- Product Catalog
 
-The OpenAPI spec at [`openapi/buywhere-openapi.yml`](openapi/buywhere-openapi.yml) covers the BuyWhere REST surface (`https://api.buywhere.ai/v1`):
+## Timestamps
 
-| Operation ID | Method & Path | Summary |
-| --- | --- | --- |
-| `registerAgent` | `POST /auth/register` | Register Agent And Issue API Key |
-| `searchProducts` | `GET /products/search` | Search Products By Keyword |
-| `getDeals` | `GET /products/deals` | List Discounted Products By Discount Percentage |
-| `compareProducts` | `GET /products/compare` | Compare Multiple Products Side-By-Side |
-| `getProduct` | `GET /products/{id}` | Get Product By ID |
-| `getProductPrices` | `GET /products/{id}/prices` | Get Product Price History |
-| `listCategories` | `GET /categories` | List Top-Level Product Categories |
-| `getCategoryProducts` | `GET /categories/{slug}` | Get Products Within A Category |
+- **Created:** 2026-05-16
+- **Modified:** 2026-05-19
 
-## Pricing, rate limits, and FinOps
+## APIs
 
-BuyWhere advertises three tiers keyed off API-key prefix. Pricing for the live and partner tiers is not yet on a formal pricing page (contact `api@buywhere.ai`); the profiles below are marked `reconciled: false` and capture the publicly documented limits.
+### BuyWhere Product Catalog API
 
-| Tier | Key prefix | Rate | Monthly quota | Pricing |
-| --- | --- | --- | --- | --- |
-| Free | `bw_free_*` | 60 req/min | 1,000 calls/month | Free |
-| Live | `bw_live_*` | 600 req/min | Not published | Contact sales |
-| Partner | `bw_partner_*` | Unlimited | Negotiated | Contact sales |
+Agent-native REST and MCP product catalog covering 1.5M+ products across Southeast Asian and US e-commerce platforms. Operations include keyword search, side-by-side comparison, deals discovery, price history, and category browsing. Responses are Schema.org-compatible (Product, Offer, ItemList) and include normalized structured_specs and comparison_attributes so LLMs can rank and reason without scraping. Same operations are exposed to MCP clients at api.buywhere.ai/mcp.
 
-See [`plans/buywhere-plans-pricing.yml`](plans/buywhere-plans-pricing.yml), [`rate-limits/buywhere-rate-limits.yml`](rate-limits/buywhere-rate-limits.yml), and [`finops/buywhere-finops.yml`](finops/buywhere-finops.yml) for the full API Commons / FOCUS-aligned profiles.
+- **Human URL:** [https://api.buywhere.ai/](https://api.buywhere.ai/)
+- **Base URL:** `https://api.buywhere.ai/v1`
 
-## Artifacts
+#### Tags
 
-| Folder | Contents |
-| --- | --- |
-| `openapi/` | OpenAPI 3.0 specification with title-cased summaries, tags, schemas, and examples |
-| `capabilities/` | Naftiko shared capability (`shared/buywhere-product-catalog-api.yaml`) and a composed workflow capability (`price-comparison-shopping-agent.yaml`) |
-| `json-schema/` | JSON Schemas for product, offer, price history, and category |
-| `json-structure/` | JSON Structure docs for product and offer, mapped to Schema.org |
-| `json-ld/` | JSON-LD context aligning BuyWhere fields with `schema.org/Product` and `schema.org/Offer` |
-| `examples/` | Request/response examples for every REST operation plus an MCP `tools/call` example |
-| `rules/` | Spectral ruleset enforcing BuyWhere's conventions (summary casing, BearerAuth, versioned servers, kebab paths, 429 on search, etc.) |
-| `vocabulary/` | Vocabulary mapping operations and capability dimensions |
-| `plans/` | API Commons Plans 0.1 profile |
-| `rate-limits/` | API Commons Rate Limits 0.1 profile |
-| `finops/` | FinOps Framework / FOCUS 1.3 profile |
+- E-commerce
+- Shopping
+- Price Comparison
+- SEA
+- Southeast Asia
+- AI Agents
+- Product Catalog
+- MCP
 
-## SDKs and integrations
+#### Properties
 
-| Package | Language | Description |
-| --- | --- | --- |
-| [`buywhere-mcp`](https://github.com/BuyWhere/buywhere-mcp) | JavaScript | BuyWhere MCP server |
-| `@buywhere/mcp-server` (npm) | JavaScript | Published STDIO MCP server |
-| [`buywhere-py`](https://github.com/BuyWhere/buywhere-py) | Python | Official Python SDK |
-| [`buywhere-llamaindex`](https://github.com/BuyWhere/buywhere-llamaindex) | Python | LlamaIndex FunctionTool wrappers |
-| [`buywhere-cursor-plugin`](https://github.com/BuyWhere/buywhere-cursor-plugin) | Python | Cursor AI MCP plugin |
-| [`buywhere-mcp-action`](https://github.com/BuyWhere/buywhere-mcp-action) | GitHub Action | BuyWhere MCP server as a GitHub Action |
+- [OpenAPI](openapi/buywhere-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/buywhere.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/buywhere.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [OpenAPI](https://api.buywhere.ai/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Documentation](https://api.buywhere.ai/)
+- [M C P Documentation](https://api.buywhere.ai/docs/guides/mcp)
+- [M C P Endpoint](https://api.buywhere.ai/mcp)
+- [Plugin Manifest](https://api.buywhere.ai/.well-known/ai-plugin.json)
+- [L L Ms Txt](https://api.buywhere.ai/llms.txt)
+- [JSON Schema](json-schema/buywhere-product-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/buywhere-offer-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/buywhere-price-history-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/buywhere-category-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/buywhere-product-structure.json)
+- [JSON Structure](json-structure/buywhere-offer-structure.json)
+- [Spectral Rules](rules/buywhere-rules.yml)
+- [Example](examples/buywhere-searchProducts-example.json)
+- [Example](examples/buywhere-getDeals-example.json)
+- [Example](examples/buywhere-compareProducts-example.json)
+- [Example](examples/buywhere-getProduct-example.json)
+- [Example](examples/buywhere-getProductPrices-example.json)
+- [Example](examples/buywhere-listCategories-example.json)
+- [Example](examples/buywhere-getCategoryProducts-example.json)
+- [Example](examples/buywhere-registerAgent-example.json)
+- [Example](examples/buywhere-mcp-tools-call-example.json)
 
-## Authentication
+## Common Properties
 
-Pass your API key as a Bearer token. Get a free key at `POST https://api.buywhere.ai/v1/auth/register`.
+- [Website](https://api.buywhere.ai/)
+- [Documentation](https://api.buywhere.ai/)
+- [M C P Documentation](https://api.buywhere.ai/docs/guides/mcp)
+- [M C P Endpoint](https://api.buywhere.ai/mcp)
+- [OpenAPI](https://api.buywhere.ai/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Plugin Manifest](https://api.buywhere.ai/.well-known/ai-plugin.json)
+- [L L Ms Txt](https://api.buywhere.ai/llms.txt)
+- [Website](https://api.buywhere.ai/us/)
+- [Git Hub](https://github.com/BuyWhere)
+- [Git Hub](https://github.com/BuyWhere/buywhere)
+- [Plans](plans/buywhere-plans-pricing.yml)
+- [Rate Limits](rate-limits/buywhere-rate-limits.yml)
+- [Fin Ops](finops/buywhere-finops.yml)
+- [Vocabulary](vocabulary/buywhere-vocabulary.yml)
+- [JSON-LD](json-ld/buywhere-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
 
-```bash
-curl https://api.buywhere.ai/v1/products/search?q=laptop&country_code=SG \
-  -H "Authorization: Bearer bw_free_xxx"
-```
+## Maintainers
 
-For MCP usage and STDIO/HTTP setup details see [`examples/buywhere-mcp-tools-call-example.json`](examples/buywhere-mcp-tools-call-example.json) and the [BuyWhere MCP guide](https://api.buywhere.ai/docs/guides/mcp).
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com
