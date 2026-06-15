@@ -1,0 +1,1886 @@
+{
+  "item": [
+    {
+      "id": "ff88130f-645c-40b5-a152-c2986a6cdad6",
+      "name": "Authentication",
+      "description": {
+        "content": "Agent registration and API key issuance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2dd80555-a33a-4a81-8da5-780eb9196419",
+          "name": "Register Agent And Issue API Key",
+          "request": {
+            "name": "Register Agent And Issue API Key",
+            "description": {
+              "content": "Register an AI agent (or application) and receive a Bearer API key with a free-tier rate limit allocation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_name\": \"<string>\",\n  \"contact\": \"<email>\",\n  \"use_case\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0db95870-fd86-4e35-9b2a-b6ba4b1926c5",
+              "name": "API key issued for the agent.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_name\": \"shopping-copilot\",\n  \"contact\": \"dev@example.com\",\n  \"use_case\": \"Price comparison assistant for Singapore consumers.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"api_key\": \"bw_free_2f7a9c0b1d8e4f3a9c0b1d8e4f3a9c0b\",\n  \"tier\": \"free\",\n  \"rate_limit\": {\n    \"rpm\": 60,\n    \"daily\": 1000\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20fb8f89-b2e1-4306-a983-ce1449f5fcf4",
+              "name": "Invalid request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_name\": \"shopping-copilot\",\n  \"contact\": \"dev@example.com\",\n  \"use_case\": \"Price comparison assistant for Singapore consumers.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ef57b84e-d63e-4f99-8bca-d8cc49318822",
+      "name": "Products",
+      "description": {
+        "content": "Product search, lookup, comparison, deals, and price history.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "70458668-5802-4619-8642-cf23b0122061",
+          "name": "Search Products By Keyword",
+          "request": {
+            "name": "Search Products By Keyword",
+            "description": {
+              "content": "Full-text search across the BuyWhere catalog with filters for merchant platform, region, country, price range, and currency. Set `compact=true` for an LLM-optimized payload.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Keyword search query (full-text)."
+                },
+                {
+                  "disabled": false,
+                  "key": "domain",
+                  "value": "<string>",
+                  "description": "Filter by merchant platform (e.g. `lazada`, `shopee`, `amazon`, `walmart`, `carousell`)."
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "Filter by region."
+                },
+                {
+                  "disabled": false,
+                  "key": "country_code",
+                  "value": "<string>",
+                  "description": "Filter by ISO country code. When provided without an explicit `currency` param,\nthe default currency is inferred (SG→SGD, US→USD, VN→VND, TH→THB, MY→MYR).\n`min_price` / `max_price` apply in the inferred currency. Default: `SG`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "min_price",
+                  "value": "<number>",
+                  "description": "Minimum price in the active currency."
+                },
+                {
+                  "disabled": false,
+                  "key": "max_price",
+                  "value": "<number>",
+                  "description": "Maximum price in the active currency."
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "SGD",
+                  "description": "Explicit currency override. If omitted and `country_code` is set, currency is inferred from `country_code`."
+                },
+                {
+                  "disabled": false,
+                  "key": "compact",
+                  "value": "false",
+                  "description": "Return a minimal payload for AI agents (id, title, price, currency, url, structured_specs, comparison_attributes)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "404fa443-487c-4281-9b32-9440a98bfa3e",
+              "name": "Product list with meta (total, response_time_ms, cached).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "wireless headphones"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "shopee"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_price",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "max_price",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "compact",
+                      "value": "false"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"ab61dcdd-4df5-7fe8-5213-a373a466ac02\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"http://LW.aejgnf.vcHzJ2KUFVI3ZZWlEUV7B\",\n      \"image_url\": \"http://WaztHi.ruyng24XZmMgaoEtSknf84\",\n      \"price\": 7340.800381437819,\n      \"original_price\": 6654.152971166866,\n      \"discount_pct\": 4924.438347854658,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 5367.432619154357,\n      \"review_count\": 3601,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": true,\n        \"key_1\": false\n      },\n      \"comparison_attributes\": {\n        \"key_0\": true\n      },\n      \"normalized_price_usd\": 8158.3054544600345,\n      \"availability\": \"in_stock\",\n      \"updated_at\": \"1949-12-13T21:37:12.647Z\"\n    },\n    {\n      \"id\": \"f131ed56-f28f-5c6e-8a42-fdc47c3a9c8b\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"https://ydJEPwQBPaWiKPSTMAvDjhpoqd.ook6ogztI-n6LiIVyqTMrw2jo5sHxrq47eSug0fum3I1e3SHCixwshbcdIMWiWn\",\n      \"image_url\": \"http://e.lwrBoDw1Z7IWaIvaTdD8yMzOgIjAsE4fnjK5IPEas3qJZh2L39Tl6yGg,rz5wCSOlNcf\",\n      \"price\": 8620.555963098155,\n      \"original_price\": 6134.656500675785,\n      \"discount_pct\": 8537.909942016116,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 3115.492801771719,\n      \"review_count\": 7796,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": true,\n        \"key_1\": 5516.8477162065365\n      },\n      \"comparison_attributes\": {\n        \"key_0\": 7472,\n        \"key_1\": 7075\n      },\n      \"normalized_price_usd\": 735.3556560108166,\n      \"availability\": \"preorder\",\n      \"updated_at\": \"1996-04-09T19:48:14.181Z\"\n    }\n  ],\n  \"meta\": {\n    \"total\": 4067,\n    \"response_time_ms\": 9544,\n    \"cached\": false,\n    \"limit\": 7159,\n    \"offset\": 7773\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "51b62a1f-2409-4be2-9c31-1c36462ee78c",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "wireless headphones"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "shopee"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_price",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "max_price",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "compact",
+                      "value": "false"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3efd484e-4f19-4031-8fb4-7716bfc7c30f",
+              "name": "Rate limit exceeded. Implement exponential backoff and respect `Retry-After`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "wireless headphones"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "shopee"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_price",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "max_price",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "compact",
+                      "value": "false"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "2525"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe0891e0-2cd7-414a-9391-2de5cbe2f650",
+          "name": "List Discounted Products By Discount Percentage",
+          "request": {
+            "name": "List Discounted Products By Discount Percentage",
+            "description": {
+              "content": "Returns products sorted by discount percentage, filtered by minimum discount, currency, and country.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                "deals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "SGD"
+                },
+                {
+                  "disabled": false,
+                  "key": "country_code",
+                  "value": "<string>",
+                  "description": "When set, only deals from that country are returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "min_discount",
+                  "value": "10",
+                  "description": "Minimum discount percentage (0–90)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e574ac02-a9fb-41e9-a506-65582c565d65",
+              "name": "Discounted products with `price`, `original_price`, and `discount_pct`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_discount",
+                      "value": "10"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"657b3bd2-9ed4-6254-7477-1d7e655e9075\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"https://MNkpNoaXqVSIXeNZjOhHYdlTCjrPgik.zlaoE,U4gxxGbxSSUFOaTUwK79oH9rUeG\",\n      \"image_url\": \"https://Edzgh.whi5CSVPxJsYIUJ2+LJZ0\",\n      \"price\": 3929.03193027033,\n      \"original_price\": 5046.077324695585,\n      \"discount_pct\": 5653.456028569815,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 7845.9015311886205,\n      \"review_count\": 4045,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": 1203\n      },\n      \"comparison_attributes\": {\n        \"key_0\": \"string\",\n        \"key_1\": 8981.244954707407\n      },\n      \"normalized_price_usd\": 7676.252703176828,\n      \"availability\": \"in_stock\",\n      \"updated_at\": \"2025-11-07T14:38:10.108Z\"\n    },\n    {\n      \"id\": \"6de47137-a25b-ee43-3bec-638cfc3a7ee8\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"https://urjxsrBTObavNjBwcgolyKZr.gbxoteLwGakD0YmH-TNlNrti8qRJoq5s3IAVL\",\n      \"image_url\": \"https://vZicqTFjsMaMFkoWcuCnNfwz.livXBvwlw4HZomFlTcTKIqUSfsZTM,2\",\n      \"price\": 7842.087422263819,\n      \"original_price\": 7121.959630049448,\n      \"discount_pct\": 2084.784272457837,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 6207.620076509373,\n      \"review_count\": 8070,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      },\n      \"comparison_attributes\": {\n        \"key_0\": 3899,\n        \"key_1\": \"string\",\n        \"key_2\": 8939.553757717074\n      },\n      \"normalized_price_usd\": 6268.7576991967335,\n      \"availability\": \"preorder\",\n      \"updated_at\": \"2016-07-03T01:59:16.189Z\"\n    }\n  ],\n  \"meta\": {\n    \"total\": 1206,\n    \"response_time_ms\": 2267\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df4a5dee-2752-43cb-bd11-31ddf98e92ff",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_discount",
+                      "value": "10"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c57414a4-37a2-495c-a20a-44b02ffb1c12",
+              "name": "Rate limit exceeded. Implement exponential backoff and respect `Retry-After`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "deals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_discount",
+                      "value": "10"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying.",
+                  "key": "Retry-After",
+                  "value": "2525"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "04739a52-305d-46f2-9ab2-6f48d37d3fe5",
+          "name": "Compare Multiple Products Side-By-Side",
+          "request": {
+            "name": "Compare Multiple Products Side-By-Side",
+            "description": {
+              "content": "Compare 2–10 products side-by-side with normalized price, brand, rating, and category path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                "compare"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated product IDs (2–10)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f35f1c56-54bc-45e4-9408-89b832fcc154",
+              "name": "Array of products with comparison-ready attributes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "8a2c3a8e-1234-5678-9abc-def012345678,9b3d4b9f-2345-6789-abcd-ef0123456789"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"b219d64a-d7db-f4c5-f9f8-71b9a550b7aa\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"http://lmmwVVmarPeRQ.xyphnCrpIn6S.pQReQB76SBDPb0fitGrJHGGfzHOi,opSKmn\",\n      \"image_url\": \"http://rfLccNeWwacbnI.ubdJVMcYj\",\n      \"price\": 8853.137355744004,\n      \"original_price\": 347.7495894668714,\n      \"discount_pct\": 7679.21015669454,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 9798.576010810992,\n      \"review_count\": 5693,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": 1162,\n        \"key_1\": 5254,\n        \"key_2\": 9408.596046968049\n      },\n      \"comparison_attributes\": {\n        \"key_0\": 3499,\n        \"key_1\": 9197,\n        \"key_2\": \"string\"\n      },\n      \"normalized_price_usd\": 4363.2804246185,\n      \"availability\": \"in_stock\",\n      \"updated_at\": \"2012-09-19T14:53:12.662Z\"\n    },\n    {\n      \"id\": \"ae30f1bd-1026-c130-8886-301130779972\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"https://dkLMOgEuGtiArcIoInpYpLaa.unhpTWwPAw0.T7VieBEayCff1aW-+dIRH\",\n      \"image_url\": \"http://fbDbqVQoMsIqLkZHceSbUlHNflfJk.emkRhwrEFJ462HkbxPl2FldmILaZVneS4gfD1qfldsm.5gad5pLx\",\n      \"price\": 2674.9431189850516,\n      \"original_price\": 2368.9404851260933,\n      \"discount_pct\": 6371.921308930322,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 936.1912551315488,\n      \"review_count\": 9321,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": 7895.7804017931185,\n        \"key_1\": 19\n      },\n      \"comparison_attributes\": {\n        \"key_0\": \"string\"\n      },\n      \"normalized_price_usd\": 8038.37891253089,\n      \"availability\": \"limited\",\n      \"updated_at\": \"2020-11-30T15:31:59.222Z\"\n    }\n  ],\n  \"meta\": {\n    \"count\": 3313\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f71752ce-cb27-4241-a0ea-dbb254105d27",
+              "name": "Fewer than 2 IDs provided.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "8a2c3a8e-1234-5678-9abc-def012345678,9b3d4b9f-2345-6789-abcd-ef0123456789"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91a6b75d-fb66-4ad8-bf21-b55874986d6e",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "8a2c3a8e-1234-5678-9abc-def012345678,9b3d4b9f-2345-6789-abcd-ef0123456789"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8744f040-1cc4-4363-9d3c-9a3221ef9b92",
+          "name": "Get Product By ID",
+          "request": {
+            "name": "Get Product By ID",
+            "description": {
+              "content": "Returns the full product detail including title, description, price, merchant, structured specs, and Schema.org-compatible metadata.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "479bfb5a-a5d7-46ae-ab41-2108457f0cc2",
+              "name": "Product detail.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"237a5754-733b-5314-1779-ee39a72e56f8\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"brand\": \"string\",\n  \"domain\": \"string\",\n  \"url\": \"https://QSmafPdIIyMHM.xpdcjzDnd9lsXumPJq\",\n  \"image_url\": \"https://VavynYolFaDypOARpaE.qjnWMMUCizvae,\",\n  \"price\": 2651.3170276514206,\n  \"original_price\": 8239.23747626459,\n  \"discount_pct\": 3474.647614451054,\n  \"currency\": \"SGD\",\n  \"country_code\": \"SG\",\n  \"rating\": 9367.291358661598,\n  \"review_count\": 8448,\n  \"category_path\": [\n    \"string\",\n    \"string\"\n  ],\n  \"structured_specs\": {\n    \"key_0\": \"string\"\n  },\n  \"comparison_attributes\": {\n    \"key_0\": false\n  },\n  \"normalized_price_usd\": 1598.872383580643,\n  \"availability\": \"out_of_stock\",\n  \"updated_at\": \"1985-08-27T12:34:19.370Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22bfced8-c7d4-4db1-9c79-c577683cc7df",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd3948cc-f517-4be4-9a91-abeaefbaac8d",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "05efbce7-ce6b-4830-8844-5bd0de9f73f0",
+          "name": "Get Product Price History",
+          "request": {
+            "name": "Get Product Price History",
+            "description": {
+              "content": "Returns price history (with min/max/avg stats) over a configurable look-back window.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ":id",
+                "prices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "days",
+                  "value": "30",
+                  "description": "Look-back window in days."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4af2b9e2-9d30-4bff-be18-80fe0e48662a",
+              "name": "Price history with min/max/avg stats.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":id",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"36b51ea5-9824-5267-dfc6-dd076fa361b7\",\n  \"currency\": \"string\",\n  \"days\": 2118,\n  \"points\": [\n    {\n      \"date\": \"1951-09-03\",\n      \"price\": 3312.307389053514,\n      \"currency\": \"string\"\n    },\n    {\n      \"date\": \"1981-05-28\",\n      \"price\": 4711.59242196438,\n      \"currency\": \"string\"\n    }\n  ],\n  \"stats\": {\n    \"min\": 2998.8657569354004,\n    \"max\": 3795.5930043185303,\n    \"avg\": 7386.828982648197,\n    \"current\": 4066.5486601398593\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4e9201c-3b03-449f-929c-b7d3ce2d8387",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":id",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8bb816c-e510-47c8-901b-c1da7545b820",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":id",
+                    "prices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "aa3a5e8e-0dd7-4b29-ac9a-526ac18a3988",
+      "name": "Categories",
+      "description": {
+        "content": "Product taxonomy and category browsing.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2fb18522-2fe3-489b-ab6c-4c555f08d626",
+          "name": "List Top-Level Product Categories",
+          "request": {
+            "name": "List Top-Level Product Categories",
+            "description": {
+              "content": "List top-level product categories with slug, name, and product count.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "categories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "SGD"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "64667140-533e-43d1-8c3c-f3844e2edb5a",
+              "name": "Category list with slug, name, and product_count.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"slug\": \"string\",\n      \"name\": \"string\",\n      \"product_count\": 3152,\n      \"parent_slug\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"name\": \"string\",\n      \"product_count\": 6630,\n      \"parent_slug\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfd9e531-2710-4ec5-8348-62932ef57e74",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "15393e38-3b58-43d0-a879-a8142e88a529",
+          "name": "Get Products Within A Category",
+          "request": {
+            "name": "Get Products Within A Category",
+            "description": {
+              "content": "Returns products in the specified category along with any subcategories.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "categories",
+                ":slug"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "SGD"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Category slug (from `/categories`)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0742c61c-f79d-4be9-a55a-4178de3ddf78",
+              "name": "Category detail with subcategories and products.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "categories",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Category slug (from `/categories`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"category\": {\n    \"slug\": \"string\",\n    \"name\": \"string\",\n    \"product_count\": 7222,\n    \"parent_slug\": \"string\"\n  },\n  \"subcategories\": [\n    {\n      \"slug\": \"string\",\n      \"name\": \"string\",\n      \"product_count\": 2524,\n      \"parent_slug\": \"string\"\n    },\n    {\n      \"slug\": \"string\",\n      \"name\": \"string\",\n      \"product_count\": 1313,\n      \"parent_slug\": \"string\"\n    }\n  ],\n  \"products\": [\n    {\n      \"id\": \"0e70f469-bb36-9e2b-b249-ed76cd8f1649\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"https://HlwMfjICCilSuJJgOopxqODTovqeH.kuaZg3,vEtnPif.96ru\",\n      \"image_url\": \"http://pVmUzPdBcHIduPDhvbPZllrMAWKtqgQJ.vbwai0LEn\",\n      \"price\": 2261.812442410548,\n      \"original_price\": 2305.9607668023164,\n      \"discount_pct\": 7261.4313248189555,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 4360.361722543833,\n      \"review_count\": 9985,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": false\n      },\n      \"comparison_attributes\": {\n        \"key_0\": 2362\n      },\n      \"normalized_price_usd\": 2326.1022501633656,\n      \"availability\": \"out_of_stock\",\n      \"updated_at\": \"1951-09-04T12:20:36.535Z\"\n    },\n    {\n      \"id\": \"29e2c6ef-0b35-5afa-6794-30a577c0431b\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"brand\": \"string\",\n      \"domain\": \"string\",\n      \"url\": \"http://PQCEjVey.xoCGN0yL3JZ8,VEY1gI9JfvOg9gfAFz8e4OxMqAQr\",\n      \"image_url\": \"http://cLssMdFQg.kxyuZuE5dgzDQryhV+lYXVsRCBXW,9vf.KLw5s5fWqMWe2l17b\",\n      \"price\": 2254.54749673054,\n      \"original_price\": 8360.086377936594,\n      \"discount_pct\": 5577.5417921204,\n      \"currency\": \"SGD\",\n      \"country_code\": \"SG\",\n      \"rating\": 6946.525536987983,\n      \"review_count\": 9254,\n      \"category_path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"structured_specs\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      },\n      \"comparison_attributes\": {\n        \"key_0\": 502.68425343456767,\n        \"key_1\": false\n      },\n      \"normalized_price_usd\": 986.6817804934036,\n      \"availability\": \"in_stock\",\n      \"updated_at\": \"2009-07-21T18:22:09.207Z\"\n    }\n  ],\n  \"meta\": {\n    \"total\": 8228,\n    \"limit\": 5024,\n    \"offset\": 4951\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4600b408-131b-43e1-ad48-6e4aac4f045c",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "categories",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Category slug (from `/categories`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e27c3752-f949-41ef-8c88-42c623ec3b53",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "categories",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "SGD"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Category slug (from `/categories`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"invalid_params\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9d9aceac-59d7-4b23-9117-660b5525a363",
+      "name": "MCP",
+      "description": {
+        "content": "Model Context Protocol surface (see /mcp endpoint and docs).",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.buywhere.ai/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "61343e3e-8182-4783-afb2-60d7fd2cbe81",
+    "name": "BuyWhere Product Catalog API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Agent-native product catalog API for Southeast Asia and US commerce. Search 1.5M+\nproducts across Shopee, Lazada, Amazon, Walmart, FairPrice, Carousell, Best Denki,\nand 20+ e-commerce platforms. Compare prices, discover deals, and find best prices\nthrough REST or MCP (Model Context Protocol).\n\nResponses are structured for LLM and agent consumption (Schema.org-compatible\n`Product` / `Offer` / `ItemList` shapes). Each product carries normalized\n`structured_specs` (brand, model, size, color) and `comparison_attributes`\nso agents can reason and rank without scraping.\n\nBuyWhere is MCP-native — the same operations are exposed at\n`POST https://api.buywhere.ai/mcp` for MCP-compatible clients, with a hosted\nHTTP transport and a published `@buywhere/mcp-server` STDIO package.\n\n\nContact Support:\n Name: BuyWhere API\n Email: api@buywhere.ai",
+      "type": "text/plain"
+    }
+  }
+}

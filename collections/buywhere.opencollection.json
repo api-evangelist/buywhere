@@ -1,0 +1,301 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BuyWhere Product Catalog API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register Agent And Issue API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.buywhere.ai/v1/auth/register",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register an AI agent (or application) and receive a Bearer API key with a free-tier rate limit allocation."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Products By Keyword",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/products/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "wireless headphones",
+                "type": "query",
+                "description": "Keyword search query (full-text)."
+              },
+              {
+                "name": "domain",
+                "value": "shopee",
+                "type": "query",
+                "description": "Filter by merchant platform (e.g. `lazada`, `shopee`, `amazon`, `walmart`, `carousell`)."
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "Filter by region."
+              },
+              {
+                "name": "country_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter by ISO country code. When provided without an explicit `currency` param,\nthe default currency is inferred (SG→SGD, US→USD, VN→VND, TH→THB, MY→MYR).\n`min_price` / `max_price` apply in the inferred currency. Default: `SG`.\n"
+              },
+              {
+                "name": "min_price",
+                "value": "",
+                "type": "query",
+                "description": "Minimum price in the active currency."
+              },
+              {
+                "name": "max_price",
+                "value": "",
+                "type": "query",
+                "description": "Maximum price in the active currency."
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Explicit currency override. If omitted and `country_code` is set, currency is inferred from `country_code`."
+              },
+              {
+                "name": "compact",
+                "value": "",
+                "type": "query",
+                "description": "Return a minimal payload for AI agents (id, title, price, currency, url, structured_specs, comparison_attributes)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Full-text search across the BuyWhere catalog with filters for merchant platform, region, country, price range, and currency. Set `compact=true` for an LLM-optimized payload."
+        },
+        {
+          "info": {
+            "name": "List Discounted Products By Discount Percentage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/products/deals",
+            "params": [
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "country_code",
+                "value": "",
+                "type": "query",
+                "description": "When set, only deals from that country are returned."
+              },
+              {
+                "name": "min_discount",
+                "value": "",
+                "type": "query",
+                "description": "Minimum discount percentage (0–90)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns products sorted by discount percentage, filtered by minimum discount, currency, and country."
+        },
+        {
+          "info": {
+            "name": "Compare Multiple Products Side-By-Side",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/products/compare",
+            "params": [
+              {
+                "name": "ids",
+                "value": "8a2c3a8e-1234-5678-9abc-def012345678,9b3d4b9f-2345-6789-abcd-ef0123456789",
+                "type": "query",
+                "description": "Comma-separated product IDs (2–10)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Compare 2–10 products side-by-side with normalized price, brand, rating, and category path."
+        },
+        {
+          "info": {
+            "name": "Get Product By ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the full product detail including title, description, price, merchant, structured specs, and Schema.org-compatible metadata."
+        },
+        {
+          "info": {
+            "name": "Get Product Price History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/products/:id/prices",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "days",
+                "value": "",
+                "type": "query",
+                "description": "Look-back window in days."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns price history (with min/max/avg stats) over a configurable look-back window."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Categories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Top-Level Product Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/categories",
+            "params": [
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List top-level product categories with slug, name, and product count."
+        },
+        {
+          "info": {
+            "name": "Get Products Within A Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/categories/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Category slug (from `/categories`)."
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns products in the specified category along with any subcategories."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
