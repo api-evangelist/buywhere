@@ -55,7 +55,7 @@ apis:
       - url: https://api.buywhere.ai/.well-known/ai-plugin.json
         type: PluginManifest
       - url: https://api.buywhere.ai/llms.txt
-        type: LLMsTxt
+        type: LlmsText
       - url: json-schema/buywhere-product-schema.json
         type: JSONSchema
       - url: json-schema/buywhere-offer-schema.json
@@ -71,50 +71,50 @@ apis:
       - url: rules/buywhere-rules.yml
         type: SpectralRules
       - url: examples/buywhere-searchProducts-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-getDeals-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-compareProducts-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-getProduct-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-getProductPrices-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-listCategories-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-getCategoryProducts-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-registerAgent-example.json
-        type: Example
+        type: Examples
       - url: examples/buywhere-mcp-tools-call-example.json
-        type: Example
+        type: Examples
     contact:
       - FN: BuyWhere API
         email: api@buywhere.ai
 sdks:
   - name: BuyWhere MCP Server (Node)
     url: https://github.com/BuyWhere/buywhere-mcp
-    type: SDK
+    type: SDKs
     language: JavaScript
     description: BuyWhere MCP server — search and compare products from SG, SEA, and US markets via Model Context Protocol.
   - name: '@buywhere/mcp-server (npm)'
     url: https://www.npmjs.com/package/@buywhere/mcp-server
-    type: SDK
+    type: SDKs
     language: JavaScript
     description: Published MCP STDIO server package — `npx -y @buywhere/mcp-server`.
   - name: buywhere-py
     url: https://github.com/BuyWhere/buywhere-py
-    type: SDK
+    type: SDKs
     language: Python
     description: Official Python SDK for the BuyWhere Product Catalog API.
   - name: buywhere-llamaindex
     url: https://github.com/BuyWhere/buywhere-llamaindex
-    type: SDK
+    type: SDKs
     language: Python
     description: LlamaIndex FunctionTool wrappers for the BuyWhere product catalog API.
   - name: buywhere-cursor-plugin
     url: https://github.com/BuyWhere/buywhere-cursor-plugin
-    type: SDK
+    type: SDKs
     language: Python
     description: BuyWhere MCP Tools for Cursor AI — product search, price comparison, and deals.
   - name: buywhere-mcp-action
@@ -180,7 +180,7 @@ common:
     type: PluginManifest
   - url: https://api.buywhere.ai/llms.txt
     name: LLMs.txt
-    type: LLMsTxt
+    type: LlmsText
   - url: https://api.buywhere.ai/us/
     name: BuyWhere US Edition
     type: Website
