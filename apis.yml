@@ -160,6 +160,10 @@ useCases:
   - deal_alert: Poll active discounts in a target country and filter by keyword.
   - product_research: Discover categories and pull structured specs to feed an LLM buying guide.
 common:
+  - type: DomainSecurity
+    url: security/buywhere-domain-security.yml
+  - type: Authentication
+    url: authentication/buywhere-authentication.yml
   - url: https://api.buywhere.ai/
     name: Website
     type: Website

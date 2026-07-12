@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/buywhere-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: |-
+    Pass your API key as a Bearer token. Get a free key at `POST /v1/auth/register`.
+    Tiers: `bw_free_*` (60 rpm), `bw_live_*` (600 rpm), `bw_partner_*` (unlimited).
+  sources:
+  - openapi/buywhere-openapi.yml
