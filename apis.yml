@@ -160,6 +160,8 @@ useCases:
   - deal_alert: Poll active discounts in a target country and filter by keyword.
   - product_research: Discover categories and pull structured specs to feed an LLM buying guide.
 common:
+  - type: AgenticAccess
+    url: agentic-access/buywhere-agentic-access.yml
   - type: DomainSecurity
     url: security/buywhere-domain-security.yml
   - type: Authentication
