@@ -1,0 +1,260 @@
+openapi: 3.0.3
+info:
+  title: BuyWhere Product Catalog Authentication Categories API
+  version: '1'
+  description: 'Agent-native product catalog API for Southeast Asia and US commerce. Search 1.5M+
+
+    products across Shopee, Lazada, Amazon, Walmart, FairPrice, Carousell, Best Denki,
+
+    and 20+ e-commerce platforms. Compare prices, discover deals, and find best prices
+
+    through REST or MCP (Model Context Protocol).
+
+
+    Responses are structured for LLM and agent consumption (Schema.org-compatible
+
+    `Product` / `Offer` / `ItemList` shapes). Each product carries normalized
+
+    `structured_specs` (brand, model, size, color) and `comparison_attributes`
+
+    so agents can reason and rank without scraping.
+
+
+    BuyWhere is MCP-native — the same operations are exposed at
+
+    `POST https://api.buywhere.ai/mcp` for MCP-compatible clients, with a hosted
+
+    HTTP transport and a published `@buywhere/mcp-server` STDIO package.
+
+    '
+  contact:
+    name: BuyWhere API
+    email: api@buywhere.ai
+    url: https://api.buywhere.ai/
+  termsOfService: https://buywhere.ai/terms
+  license:
+    name: Commercial
+    url: https://buywhere.ai/terms
+servers:
+- url: https://api.buywhere.ai/v1
+  description: Production REST API
+tags:
+- name: Categories
+  description: Product taxonomy and category browsing.
+paths:
+  /categories:
+    get:
+      summary: List Top-Level Product Categories
+      description: List top-level product categories with slug, name, and product count.
+      operationId: listCategories
+      tags:
+      - Categories
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: currency
+        in: query
+        schema:
+          type: string
+          default: SGD
+      responses:
+        '200':
+          description: Category list with slug, name, and product_count.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /categories/{slug}:
+    get:
+      summary: Get Products Within A Category
+      description: Returns products in the specified category along with any subcategories.
+      operationId: getCategoryProducts
+      tags:
+      - Categories
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Category slug (from `/categories`).
+      - name: currency
+        in: query
+        schema:
+          type: string
+          default: SGD
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 20
+          maximum: 100
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Category detail with subcategories and products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDetail'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        product_count:
+          type: integer
+        parent_slug:
+          type: string
+          nullable: true
+    CategoryList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    CategoryDetail:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        subcategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
+    Product:
+      type: object
+      description: Schema.org-compatible product representation.
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        brand:
+          type: string
+        domain:
+          type: string
+          description: Source merchant platform (lazada, shopee, amazon, walmart, etc.).
+        url:
+          type: string
+          format: uri
+          description: Canonical merchant product URL.
+        image_url:
+          type: string
+          format: uri
+        price:
+          type: number
+        original_price:
+          type: number
+        discount_pct:
+          type: number
+        currency:
+          type: string
+          example: SGD
+        country_code:
+          type: string
+          example: SG
+        rating:
+          type: number
+        review_count:
+          type: integer
+        category_path:
+          type: array
+          items:
+            type: string
+        structured_specs:
+          type: object
+          description: Normalized structured attributes (brand, model, size, color, etc.).
+          additionalProperties: true
+        comparison_attributes:
+          type: object
+          description: Attributes pre-normalized for agent comparison reasoning.
+          additionalProperties: true
+        normalized_price_usd:
+          type: number
+        availability:
+          type: string
+          enum:
+          - in_stock
+          - out_of_stock
+          - preorder
+          - limited
+        updated_at:
+          type: string
+          format: date-time
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your API key as a Bearer token. Get a free key at `POST /v1/auth/register`.
+
+        Tiers: `bw_free_*` (60 rpm), `bw_live_*` (600 rpm), `bw_partner_*` (unlimited).
+
+        '
+externalDocs:
+  description: BuyWhere developer documentation and MCP guide
+  url: https://api.buywhere.ai/docs/guides/mcp

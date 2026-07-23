@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: BuyWhere Product Catalog Authentication API
+  version: '1'
+  description: 'Agent-native product catalog API for Southeast Asia and US commerce. Search 1.5M+
+
+    products across Shopee, Lazada, Amazon, Walmart, FairPrice, Carousell, Best Denki,
+
+    and 20+ e-commerce platforms. Compare prices, discover deals, and find best prices
+
+    through REST or MCP (Model Context Protocol).
+
+
+    Responses are structured for LLM and agent consumption (Schema.org-compatible
+
+    `Product` / `Offer` / `ItemList` shapes). Each product carries normalized
+
+    `structured_specs` (brand, model, size, color) and `comparison_attributes`
+
+    so agents can reason and rank without scraping.
+
+
+    BuyWhere is MCP-native — the same operations are exposed at
+
+    `POST https://api.buywhere.ai/mcp` for MCP-compatible clients, with a hosted
+
+    HTTP transport and a published `@buywhere/mcp-server` STDIO package.
+
+    '
+  contact:
+    name: BuyWhere API
+    email: api@buywhere.ai
+    url: https://api.buywhere.ai/
+  termsOfService: https://buywhere.ai/terms
+  license:
+    name: Commercial
+    url: https://buywhere.ai/terms
+servers:
+- url: https://api.buywhere.ai/v1
+  description: Production REST API
+tags:
+- name: Authentication
+  description: Agent registration and API key issuance.
+paths:
+  /auth/register:
+    post:
+      summary: Register Agent And Issue API Key
+      description: Register an AI agent (or application) and receive a Bearer API key with a free-tier rate limit allocation.
+      operationId: registerAgent
+      tags:
+      - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRegistration'
+            example:
+              agent_name: shopping-copilot
+              contact: dev@example.com
+              use_case: Price comparison assistant for Singapore consumers.
+      responses:
+        '201':
+          description: API key issued for the agent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyIssue'
+              example:
+                api_key: bw_free_2f7a9c0b1d8e4f3a9c0b1d8e4f3a9c0b
+                tier: free
+                rate_limit:
+                  rpm: 60
+                  daily: 1000
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  responses:
+    BadRequest:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ApiKeyIssue:
+      type: object
+      properties:
+        api_key:
+          type: string
+          description: Bearer token (prefixed with `bw_free_`, `bw_live_`, or `bw_partner_`).
+        tier:
+          type: string
+          enum:
+          - free
+          - live
+          - partner
+        rate_limit:
+          type: object
+          properties:
+            rpm:
+              type: integer
+              description: Requests per minute.
+            daily:
+              type: integer
+              description: Daily request quota.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
+    AgentRegistration:
+      type: object
+      required:
+      - agent_name
+      properties:
+        agent_name:
+          type: string
+          description: Name or identifier of your agent.
+        contact:
+          type: string
+          format: email
+          description: Contact email (optional).
+        use_case:
+          type: string
+          description: Brief description of your use case.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your API key as a Bearer token. Get a free key at `POST /v1/auth/register`.
+
+        Tiers: `bw_free_*` (60 rpm), `bw_live_*` (600 rpm), `bw_partner_*` (unlimited).
+
+        '
+externalDocs:
+  description: BuyWhere developer documentation and MCP guide
+  url: https://api.buywhere.ai/docs/guides/mcp
