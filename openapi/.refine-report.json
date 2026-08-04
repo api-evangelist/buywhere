@@ -1,0 +1,18 @@
+{
+  "provider": "buywhere",
+  "sources": [
+    "buywhere-authentication-api-openapi.yml",
+    "buywhere-categories-api-openapi.yml",
+    "buywhere-products-api-openapi.yml"
+  ],
+  "outputs": [
+    "buywhere-authentication-api-openapi.yml",
+    "buywhere-categories-api-openapi.yml",
+    "buywhere-products-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
