@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BuyWhere Product Catalog Authentication API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register Agent And Issue API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.buywhere.ai/v1/auth/register",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register an AI agent (or application) and receive a Bearer API key with a free-tier rate limit allocation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

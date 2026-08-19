@@ -1,0 +1,18 @@
+# BuyWhere
+
+BuyWhere is a structured product catalog and price comparison API for AI agents and LLM applications. We provide real-time pricing, availability, and product data from Singapore's major e-commerce platforms (Lazada, Shopee, Best Denki, and others).
+
+## What we offer
+- REST API: GET /v1/products, GET /v1/offers, GET /v1/categories
+- MCP endpoint: https://api.buywhere.ai/mcp
+- Schema.org-compatible product data (Product, Offer, ItemList)
+- Coverage: 2M+ Singapore products across 40+ merchants
+- Use cases: price comparison agents, shopping assistants, market research tools
+
+## Documentation
+- API docs: https://docs.buywhere.ai
+- MCP guide: https://api.buywhere.ai/docs/guides/mcp
+- GitHub: https://github.com/BuyWhere/buywhere
+
+## Licensing
+Free tier: 1,000 API calls/month. Commercial plans available.

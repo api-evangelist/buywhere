@@ -1,0 +1,169 @@
+{
+  "item": [
+    {
+      "id": "65f984eb-4e0f-4610-a4d0-247ede4017b5",
+      "name": "Authentication",
+      "description": {
+        "content": "Agent registration and API key issuance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8bb7f42c-cd8f-4f1a-9bd7-93bc0508af6c",
+          "name": "Register Agent And Issue API Key",
+          "request": {
+            "name": "Register Agent And Issue API Key",
+            "description": {
+              "content": "Register an AI agent (or application) and receive a Bearer API key with a free-tier rate limit allocation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_name\": \"<string>\",\n  \"contact\": \"<email>\",\n  \"use_case\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b9e96d46-caaa-401c-82e2-9d2ab3dbc189",
+              "name": "API key issued for the agent.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_name\": \"shopping-copilot\",\n  \"contact\": \"dev@example.com\",\n  \"use_case\": \"Price comparison assistant for Singapore consumers.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"api_key\": \"bw_free_2f7a9c0b1d8e4f3a9c0b1d8e4f3a9c0b\",\n  \"tier\": \"free\",\n  \"rate_limit\": {\n    \"rpm\": 60,\n    \"daily\": 1000\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cde055d1-eb1a-48a3-95bc-e490f23521e6",
+              "name": "Invalid request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_name\": \"shopping-copilot\",\n  \"contact\": \"dev@example.com\",\n  \"use_case\": \"Price comparison assistant for Singapore consumers.\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"rate_limited\",\n    \"message\": \"string\",\n    \"request_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.buywhere.ai/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "540843ec-9c1a-42ca-9b52-d298f5d28f78",
+    "name": "BuyWhere Product Catalog Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Agent-native product catalog API for Southeast Asia and US commerce. Search 1.5M+\nproducts across Shopee, Lazada, Amazon, Walmart, FairPrice, Carousell, Best Denki,\nand 20+ e-commerce platforms. Compare prices, discover deals, and find best prices\nthrough REST or MCP (Model Context Protocol).\n\nResponses are structured for LLM and agent consumption (Schema.org-compatible\n`Product` / `Offer` / `ItemList` shapes). Each product carries normalized\n`structured_specs` (brand, model, size, color) and `comparison_attributes`\nso agents can reason and rank without scraping.\n\nBuyWhere is MCP-native — the same operations are exposed at\n`POST https://api.buywhere.ai/mcp` for MCP-compatible clients, with a hosted\nHTTP transport and a published `@buywhere/mcp-server` STDIO package.\n\n\nContact Support:\n Name: BuyWhere API\n Email: api@buywhere.ai",
+      "type": "text/plain"
+    }
+  }
+}

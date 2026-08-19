@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BuyWhere Product Catalog Authentication Categories API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Categories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Top-Level Product Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/categories",
+            "params": [
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List top-level product categories with slug, name, and product count."
+        },
+        {
+          "info": {
+            "name": "Get Products Within A Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.buywhere.ai/v1/categories/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Category slug (from `/categories`)."
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns products in the specified category along with any subcategories."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
