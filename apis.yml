@@ -14,6 +14,14 @@ specificationVersion: '0.23'
 position: Consumer
 access: 3rd-Party
 tags:
+  - E-Commerce
+  - Shopping
+  - Price Comparison
+  - SEA
+  - Southeast Asia
+  - AI Agents
+  - Product Catalog
+tags_raw:
   - E-commerce
   - Shopping
   - Price Comparison
@@ -132,6 +140,8 @@ apis:
   humanURL: https://api.buywhere.ai/
   baseURL: https://api.buywhere.ai/v1
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
