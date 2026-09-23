@@ -1,32 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: BuyWhere Product Catalog Authentication Categories API
+  title: BuyWhere Product Catalog Categories API
   version: '1'
-  description: 'Agent-native product catalog API for Southeast Asia and US commerce. Search 1.5M+
-
-    products across Shopee, Lazada, Amazon, Walmart, FairPrice, Carousell, Best Denki,
-
-    and 20+ e-commerce platforms. Compare prices, discover deals, and find best prices
-
-    through REST or MCP (Model Context Protocol).
-
-
-    Responses are structured for LLM and agent consumption (Schema.org-compatible
-
-    `Product` / `Offer` / `ItemList` shapes). Each product carries normalized
-
-    `structured_specs` (brand, model, size, color) and `comparison_attributes`
-
-    so agents can reason and rank without scraping.
-
-
-    BuyWhere is MCP-native — the same operations are exposed at
-
-    `POST https://api.buywhere.ai/mcp` for MCP-compatible clients, with a hosted
-
-    HTTP transport and a published `@buywhere/mcp-server` STDIO package.
-
-    '
+  description: Agent-native product catalog API for Southeast Asia and US commerce.
   contact:
     name: BuyWhere API
     email: api@buywhere.ai
@@ -111,65 +87,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Category:
-      type: object
-      properties:
-        slug:
-          type: string
-        name:
-          type: string
-        product_count:
-          type: integer
-        parent_slug:
-          type: string
-          nullable: true
-    CategoryList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
-    CategoryDetail:
-      type: object
-      properties:
-        category:
-          $ref: '#/components/schemas/Category'
-        subcategories:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        meta:
-          type: object
-          properties:
-            total:
-              type: integer
-            limit:
-              type: integer
-            offset:
-              type: integer
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
     Product:
       type: object
       description: Schema.org-compatible product representation.
@@ -233,6 +150,66 @@ components:
         updated_at:
           type: string
           format: date-time
+    CategoryList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
+    Category:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        product_count:
+          type: integer
+        parent_slug:
+          type:
+          - string
+          - 'null'
+    CategoryDetail:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        subcategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
   responses:
     Unauthorized:
       description: Missing or invalid API key.
