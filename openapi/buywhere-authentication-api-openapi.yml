@@ -51,13 +51,6 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 components:
-  responses:
-    BadRequest:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     AgentRegistration:
       type: object
@@ -74,24 +67,6 @@ components:
         use_case:
           type: string
           description: Brief description of your use case.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
     ApiKeyIssue:
       type: object
       properties:
@@ -113,6 +88,31 @@ components:
             daily:
               type: integer
               description: Daily request quota.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
+  responses:
+    BadRequest:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerAuth:
       type: http

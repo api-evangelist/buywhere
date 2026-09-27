@@ -260,6 +260,18 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    CompareResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          type: object
+          properties:
+            count:
+              type: integer
     Product:
       type: object
       description: Schema.org-compatible product representation.
@@ -323,68 +335,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    CompareResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        meta:
-          type: object
-          properties:
-            count:
-              type: integer
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
-    PricePoint:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date
-        price:
-          type: number
-        currency:
-          type: string
-    DealList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Deal'
-        meta:
-          type: object
-          properties:
-            total:
-              type: integer
-            response_time_ms:
-              type: integer
-    Deal:
-      allOf:
-      - $ref: '#/components/schemas/Product'
-      - type: object
-        properties:
-          discount_pct:
-            type: number
-            description: Discount percentage (0–90).
     PriceHistory:
       type: object
       properties:
@@ -410,6 +360,56 @@ components:
               type: number
             current:
               type: number
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
+    DealList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deal'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            response_time_ms:
+              type: integer
+    PricePoint:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        price:
+          type: number
+        currency:
+          type: string
+    Deal:
+      allOf:
+      - $ref: '#/components/schemas/Product'
+      - type: object
+        properties:
+          discount_pct:
+            type: number
+            description: Discount percentage (0–90).
     ProductList:
       type: object
       properties:
@@ -431,12 +431,6 @@ components:
             offset:
               type: integer
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimited:
       description: Rate limit exceeded. Implement exponential backoff and respect `Retry-After`.
       headers:
@@ -450,6 +444,12 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:

@@ -87,6 +87,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    CategoryList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
     Product:
       type: object
       description: Schema.org-compatible product representation.
@@ -150,13 +157,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    CategoryList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
     Error:
       type: object
       properties:
@@ -211,14 +211,14 @@ components:
             offset:
               type: integer
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: Resource not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:

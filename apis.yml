@@ -3,16 +3,21 @@ url: https://raw.githubusercontent.com/api-evangelist/buywhere/refs/heads/main/a
 name: BuyWhere
 type: Index
 deliveryModel:
-  model: saas
-  open_source: false
+  model: unknown
+  license_evidence:
+    repo: buywhere/buywhere
+    spdx: none
+    stars: 1
+  open_source: unknown
   commercial: true
   callable_host: true
-  label: Hosted service · you call their endpoint
-  confidence: high
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
   source:
   - openapi
   - pricing
-  generated: '2026-08-28'
+  - repository-unlicensed
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -47,6 +52,7 @@ tags:
   - Southeast Asia
   - AI Agents
   - Product Catalog
+  - A2A
 tags_raw:
   - E-commerce
   - Shopping
@@ -55,6 +61,7 @@ tags_raw:
   - Southeast Asia
   - AI Agents
   - Product Catalog
+  - A2A
 apis:
 - aid: buywhere:buywhere-authentication-api
   name: BuyWhere Authentication API
