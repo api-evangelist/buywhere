@@ -16,30 +16,52 @@ deployment:
 tools_count: 13
 tools:
 - name: search_products
-  description: ''
+  description: Search the BuyWhere product catalog by keyword. Treat deliver_to as REQUIRED for buyer-facing
+    use (ISO-3166 country of the end user); it takes precedence over country_code/country and prevents
+    all-market scans. Returns product records with
 - name: get_product
-  description: ''
+  description: Get a specific product by its ID, including full details and current price.
 - name: compare_products
-  description: ''
+  description: Compare multiple products side-by-side. Returns price, brand, rating, and category for
+    each.
 - name: get_deals
-  description: ''
+  description: 'Get discounted products sorted by discount percentage. Returns schema.org/Product entities
+    with schema.org/Offer properties: price, priceCurrency, availability, originalPrice, and discountPercentage.
+    Covers Singapore, Malaysia, Indonesia, T'
 - name: list_categories
-  description: ''
+  description: List top-level product categories available in the BuyWhere catalog.
 - name: find_best_price
-  description: ''
+  description: Use this whenever a user asks about prices, wants to find the cheapest option, or asks
+    "what's the best price for X" or "where can I buy X for the lowest price". Returns schema.org/Product
+    entities with schema.org/AggregateOffer (lowPrice,
 - name: find_similar
-  description: ''
+  description: Find products similar to a given product using vector similarity. Returns up to 10 nearest
+    neighbours by semantic meaning (title+description embedding). Useful for "more like this" recommendations.
 - name: ingest_products
-  description: ''
+  description: Ingest (upsert) a batch of products into the BuyWhere catalog. Use this to add or update
+    product listings from any merchant/source. Requires a valid API key with ingest permissions. Accepts
+    up to 1000 products per call with source, SKU, tit
 - name: search_products_v2
-  description: ''
+  description: REQUIRED deliver_to. Search the BuyWhere product catalog by keyword. The deliver_to parameter
+    is REQUIRED (ISO country code, e.g. "SG", "US") — it takes precedence over country_code/country and
+    prevents all-market scans. Always pass deliver
 - name: get_product_v2
-  description: ''
+  description: REQUIRED deliver_to. Get a specific product by its ID, including full details and current
+    price. Always pass deliver_to="SG" (or your buyer's country). Response includes a resolved outbound_url
+    (https://…) that routes the buyer through the
 - name: compare_products_v2
-  description: ''
+  description: REQUIRED deliver_to. Compare multiple products side-by-side. Always pass deliver_to="SG"
+    (or your buyer's country). Returns price, brand, rating, category, and a resolved outbound_url per
+    product for the buyer market.
 - name: get_deals_v2
-  description: ''
+  description: 'REQUIRED deliver_to. Get discounted products sorted by discount percentage. Always pass
+    deliver_to="SG" (or your buyer''s country). Returns schema.org/Product entities with schema.org/Offer
+    properties: price, priceCurrency, availability, ori'
 - name: find_best_price_v2
-  description: ''
+  description: REQUIRED deliver_to. Use this whenever a user asks about prices, wants to find the cheapest
+    option, or asks "what's the best price for X" or "where can I buy X for the lowest price". Always
+    pass deliver_to="SG" (or your buyer's country). Re
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
