@@ -52,21 +52,6 @@ paths:
           $ref: '#/components/responses/BadRequest'
 components:
   schemas:
-    AgentRegistration:
-      type: object
-      required:
-      - agent_name
-      properties:
-        agent_name:
-          type: string
-          description: Name or identifier of your agent.
-        contact:
-          type: string
-          format: email
-          description: Contact email (optional).
-        use_case:
-          type: string
-          description: Brief description of your use case.
     ApiKeyIssue:
       type: object
       properties:
@@ -88,6 +73,21 @@ components:
             daily:
               type: integer
               description: Daily request quota.
+    AgentRegistration:
+      type: object
+      required:
+      - agent_name
+      properties:
+        agent_name:
+          type: string
+          description: Name or identifier of your agent.
+        contact:
+          type: string
+          format: email
+          description: Contact email (optional).
+        use_case:
+          type: string
+          description: Brief description of your use case.
     Error:
       type: object
       properties:

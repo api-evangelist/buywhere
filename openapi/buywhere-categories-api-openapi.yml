@@ -87,6 +87,28 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    CategoryDetail:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        subcategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
     CategoryList:
       type: object
       properties:
@@ -94,6 +116,37 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
+    Category:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        product_count:
+          type: integer
+        parent_slug:
+          type:
+          - string
+          - 'null'
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
     Product:
       type: object
       description: Schema.org-compatible product representation.
@@ -157,68 +210,15 @@ components:
         updated_at:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
-    Category:
-      type: object
-      properties:
-        slug:
-          type: string
-        name:
-          type: string
-        product_count:
-          type: integer
-        parent_slug:
-          type:
-          - string
-          - 'null'
-    CategoryDetail:
-      type: object
-      properties:
-        category:
-          $ref: '#/components/schemas/Category'
-        subcategories:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        meta:
-          type: object
-          properties:
-            total:
-              type: integer
-            limit:
-              type: integer
-            offset:
-              type: integer
   responses:
-    NotFound:
-      description: Resource not found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: Resource not found.
       content:
         application/json:
           schema:

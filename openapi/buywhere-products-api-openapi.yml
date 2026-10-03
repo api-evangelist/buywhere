@@ -260,6 +260,83 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    PriceHistory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+        days:
+          type: integer
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/PricePoint'
+        stats:
+          type: object
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+            avg:
+              type: number
+            current:
+              type: number
+    DealList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deal'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            response_time_ms:
+              type: integer
+    PricePoint:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        price:
+          type: number
+        currency:
+          type: string
+    Deal:
+      allOf:
+      - $ref: '#/components/schemas/Product'
+      - type: object
+        properties:
+          discount_pct:
+            type: number
+            description: Discount percentage (0–90).
+    ProductList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            response_time_ms:
+              type: integer
+            cached:
+              type: boolean
+            limit:
+              type: integer
+            offset:
+              type: integer
     CompareResponse:
       type: object
       properties:
@@ -272,6 +349,24 @@ components:
           properties:
             count:
               type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
     Product:
       type: object
       description: Schema.org-compatible product representation.
@@ -335,109 +430,9 @@ components:
         updated_at:
           type: string
           format: date-time
-    PriceHistory:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        currency:
-          type: string
-        days:
-          type: integer
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/PricePoint'
-        stats:
-          type: object
-          properties:
-            min:
-              type: number
-            max:
-              type: number
-            avg:
-              type: number
-            current:
-              type: number
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
-    DealList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Deal'
-        meta:
-          type: object
-          properties:
-            total:
-              type: integer
-            response_time_ms:
-              type: integer
-    PricePoint:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date
-        price:
-          type: number
-        currency:
-          type: string
-    Deal:
-      allOf:
-      - $ref: '#/components/schemas/Product'
-      - type: object
-        properties:
-          discount_pct:
-            type: number
-            description: Discount percentage (0–90).
-    ProductList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        meta:
-          type: object
-          properties:
-            total:
-              type: integer
-            response_time_ms:
-              type: integer
-            cached:
-              type: boolean
-            limit:
-              type: integer
-            offset:
-              type: integer
   responses:
-    RateLimited:
-      description: Rate limit exceeded. Implement exponential backoff and respect `Retry-After`.
-      headers:
-        Retry-After:
-          schema:
-            type: integer
-          description: Seconds to wait before retrying.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
@@ -448,8 +443,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Rate limit exceeded. Implement exponential backoff and respect `Retry-After`.
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+          description: Seconds to wait before retrying.
       content:
         application/json:
           schema:
