@@ -87,48 +87,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    CategoryDetail:
-      type: object
-      properties:
-        category:
-          $ref: '#/components/schemas/Category'
-        subcategories:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        meta:
-          type: object
-          properties:
-            total:
-              type: integer
-            limit:
-              type: integer
-            offset:
-              type: integer
-    CategoryList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
-    Category:
-      type: object
-      properties:
-        slug:
-          type: string
-        name:
-          type: string
-        product_count:
-          type: integer
-        parent_slug:
-          type:
-          - string
-          - 'null'
     Error:
       type: object
       properties:
@@ -210,6 +168,48 @@ components:
         updated_at:
           type: string
           format: date-time
+    Category:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        product_count:
+          type: integer
+        parent_slug:
+          type:
+          - string
+          - 'null'
+    CategoryList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    CategoryDetail:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        subcategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
   responses:
     Unauthorized:
       description: Missing or invalid API key.

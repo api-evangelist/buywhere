@@ -52,6 +52,24 @@ paths:
           $ref: '#/components/responses/BadRequest'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
     ApiKeyIssue:
       type: object
       properties:
@@ -88,24 +106,6 @@ components:
         use_case:
           type: string
           description: Brief description of your use case.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
   responses:
     BadRequest:
       description: Invalid request.
