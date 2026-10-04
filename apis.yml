@@ -290,6 +290,9 @@ useCases:
   - deal_alert: Poll active discounts in a target country and filter by keyword.
   - product_research: Discover categories and pull structured specs to feed an LLM buying guide.
 common:
+  - type: CapabilityMap
+    url: capabilities/buywhere-capability-edges.yml
+    name: BuyWhere Business Capability Map
   - type: AgentCard
     url: a2a/buywhere-a2a.yml
     name: A2A Agent Card
