@@ -260,14 +260,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Deal:
-      allOf:
-      - $ref: '#/components/schemas/Product'
-      - type: object
-        properties:
-          discount_pct:
-            type: number
-            description: Discount percentage (0–90).
     PricePoint:
       type: object
       properties:
@@ -278,24 +270,6 @@ components:
           type: number
         currency:
           type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
     ProductList:
       type: object
       properties:
@@ -315,6 +289,45 @@ components:
             limit:
               type: integer
             offset:
+              type: integer
+    PriceHistory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+        days:
+          type: integer
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/PricePoint'
+        stats:
+          type: object
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+            avg:
+              type: number
+            current:
+              type: number
+    DealList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deal'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            response_time_ms:
               type: integer
     Product:
       type: object
@@ -379,31 +392,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    PriceHistory:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        currency:
-          type: string
-        days:
-          type: integer
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/PricePoint'
-        stats:
-          type: object
-          properties:
-            min:
-              type: number
-            max:
-              type: number
-            avg:
-              type: number
-            current:
-              type: number
     CompareResponse:
       type: object
       properties:
@@ -416,29 +404,35 @@ components:
           properties:
             count:
               type: integer
-    DealList:
+    Deal:
+      allOf:
+      - $ref: '#/components/schemas/Product'
+      - type: object
+        properties:
+          discount_pct:
+            type: number
+            description: Discount percentage (0–90).
+    Error:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Deal'
-        meta:
+        error:
           type: object
           properties:
-            total:
-              type: integer
-            response_time_ms:
-              type: integer
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
       content:
         application/json:
           schema:
@@ -450,6 +444,12 @@ components:
           schema:
             type: integer
           description: Seconds to wait before retrying.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
       content:
         application/json:
           schema:

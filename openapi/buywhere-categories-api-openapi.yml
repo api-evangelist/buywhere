@@ -86,25 +86,33 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    Category:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              enum:
-              - invalid_params
-              - not_found
-              - rate_limited
-              - unauthorized
-              - internal_error
-            message:
-              type: string
-            request_id:
-              type: string
+        slug:
+          type: string
+        name:
+          type: string
+        product_count:
+          type: integer
+        parent_slug:
+          type:
+          - string
+          - 'null'
     Product:
       type: object
       description: Schema.org-compatible product representation.
@@ -168,19 +176,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Category:
-      type: object
-      properties:
-        slug:
-          type: string
-        name:
-          type: string
-        product_count:
-          type: integer
-        parent_slug:
-          type:
-          - string
-          - 'null'
     CategoryList:
       type: object
       properties:
@@ -188,6 +183,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+              - invalid_params
+              - not_found
+              - rate_limited
+              - unauthorized
+              - internal_error
+            message:
+              type: string
+            request_id:
+              type: string
     CategoryDetail:
       type: object
       properties:
@@ -210,19 +223,6 @@ components:
               type: integer
             offset:
               type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerAuth:
       type: http
