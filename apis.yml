@@ -63,58 +63,6 @@ tags_raw:
   - Product Catalog
   - A2A
 apis:
-- aid: buywhere:buywhere-authentication-api
-  name: BuyWhere Authentication API
-  description: Agent registration and API key issuance.
-  humanURL: https://api.buywhere.ai/
-  baseURL: https://api.buywhere.ai/v1
-  tags:
-  - Authentication
-  properties:
-  - type: OpenAPI
-    url: openapi/buywhere-authentication-api-openapi.yml
-  - type: Documentation
-    url: https://api.buywhere.ai/
-  - type: MCPDocumentation
-    url: https://api.buywhere.ai/docs/guides/mcp
-  - type: MCPEndpoint
-    url: https://api.buywhere.ai/mcp
-  - type: PluginManifest
-    url: https://api.buywhere.ai/.well-known/ai-plugin.json
-  - type: LlmsText
-    url: https://api.buywhere.ai/llms.txt
-  - type: JSONSchema
-    url: json-schema/buywhere-product-schema.json
-  - type: JSONSchema
-    url: json-schema/buywhere-offer-schema.json
-  - type: JSONSchema
-    url: json-schema/buywhere-price-history-schema.json
-  - type: JSONSchema
-    url: json-schema/buywhere-category-schema.json
-  - type: JSONStructure
-    url: json-structure/buywhere-product-structure.json
-  - type: JSONStructure
-    url: json-structure/buywhere-offer-structure.json
-  - type: SpectralRules
-    url: rules/buywhere-rules.yml
-  - type: Examples
-    url: examples/buywhere-searchProducts-example.json
-  - type: Examples
-    url: examples/buywhere-getDeals-example.json
-  - type: Examples
-    url: examples/buywhere-compareProducts-example.json
-  - type: Examples
-    url: examples/buywhere-getProduct-example.json
-  - type: Examples
-    url: examples/buywhere-getProductPrices-example.json
-  - type: Examples
-    url: examples/buywhere-listCategories-example.json
-  - type: Examples
-    url: examples/buywhere-getCategoryProducts-example.json
-  - type: Examples
-    url: examples/buywhere-registerAgent-example.json
-  - type: Examples
-    url: examples/buywhere-mcp-tools-call-example.json
 - aid: buywhere:buywhere-categories-api
   name: BuyWhere Categories API
   description: Product taxonomy and category browsing.
@@ -179,6 +127,162 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/buywhere-products-api-openapi.yml
+  - type: Documentation
+    url: https://api.buywhere.ai/
+  - type: MCPDocumentation
+    url: https://api.buywhere.ai/docs/guides/mcp
+  - type: MCPEndpoint
+    url: https://api.buywhere.ai/mcp
+  - type: PluginManifest
+    url: https://api.buywhere.ai/.well-known/ai-plugin.json
+  - type: LlmsText
+    url: https://api.buywhere.ai/llms.txt
+  - type: JSONSchema
+    url: json-schema/buywhere-product-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-offer-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-price-history-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-category-schema.json
+  - type: JSONStructure
+    url: json-structure/buywhere-product-structure.json
+  - type: JSONStructure
+    url: json-structure/buywhere-offer-structure.json
+  - type: SpectralRules
+    url: rules/buywhere-rules.yml
+  - type: Examples
+    url: examples/buywhere-searchProducts-example.json
+  - type: Examples
+    url: examples/buywhere-getDeals-example.json
+  - type: Examples
+    url: examples/buywhere-compareProducts-example.json
+  - type: Examples
+    url: examples/buywhere-getProduct-example.json
+  - type: Examples
+    url: examples/buywhere-getProductPrices-example.json
+  - type: Examples
+    url: examples/buywhere-listCategories-example.json
+  - type: Examples
+    url: examples/buywhere-getCategoryProducts-example.json
+  - type: Examples
+    url: examples/buywhere-registerAgent-example.json
+  - type: Examples
+    url: examples/buywhere-mcp-tools-call-example.json
+- aid: buywhere:buywhere-auth-api
+  name: BuyWhere Auth API
+  description: The Auth API from BuyWhere — 1 operation(s) for auth.
+  humanURL: https://api.buywhere.ai/
+  baseURL: https://api.buywhere.ai/v1
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/buywhere-auth-api-openapi.yml
+  - type: Documentation
+    url: https://api.buywhere.ai/
+  - type: MCPDocumentation
+    url: https://api.buywhere.ai/docs/guides/mcp
+  - type: MCPEndpoint
+    url: https://api.buywhere.ai/mcp
+  - type: PluginManifest
+    url: https://api.buywhere.ai/.well-known/ai-plugin.json
+  - type: LlmsText
+    url: https://api.buywhere.ai/llms.txt
+  - type: JSONSchema
+    url: json-schema/buywhere-product-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-offer-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-price-history-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-category-schema.json
+  - type: JSONStructure
+    url: json-structure/buywhere-product-structure.json
+  - type: JSONStructure
+    url: json-structure/buywhere-offer-structure.json
+  - type: SpectralRules
+    url: rules/buywhere-rules.yml
+  - type: Examples
+    url: examples/buywhere-searchProducts-example.json
+  - type: Examples
+    url: examples/buywhere-getDeals-example.json
+  - type: Examples
+    url: examples/buywhere-compareProducts-example.json
+  - type: Examples
+    url: examples/buywhere-getProduct-example.json
+  - type: Examples
+    url: examples/buywhere-getProductPrices-example.json
+  - type: Examples
+    url: examples/buywhere-listCategories-example.json
+  - type: Examples
+    url: examples/buywhere-getCategoryProducts-example.json
+  - type: Examples
+    url: examples/buywhere-registerAgent-example.json
+  - type: Examples
+    url: examples/buywhere-mcp-tools-call-example.json
+- aid: buywhere:buywhere-featured-api
+  name: BuyWhere Featured API
+  description: The Featured API from BuyWhere — 1 operation(s) for featured.
+  humanURL: https://api.buywhere.ai/
+  baseURL: https://api.buywhere.ai/v1
+  tags:
+  - Featured
+  properties:
+  - type: OpenAPI
+    url: openapi/buywhere-featured-api-openapi.yml
+  - type: Documentation
+    url: https://api.buywhere.ai/
+  - type: MCPDocumentation
+    url: https://api.buywhere.ai/docs/guides/mcp
+  - type: MCPEndpoint
+    url: https://api.buywhere.ai/mcp
+  - type: PluginManifest
+    url: https://api.buywhere.ai/.well-known/ai-plugin.json
+  - type: LlmsText
+    url: https://api.buywhere.ai/llms.txt
+  - type: JSONSchema
+    url: json-schema/buywhere-product-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-offer-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-price-history-schema.json
+  - type: JSONSchema
+    url: json-schema/buywhere-category-schema.json
+  - type: JSONStructure
+    url: json-structure/buywhere-product-structure.json
+  - type: JSONStructure
+    url: json-structure/buywhere-offer-structure.json
+  - type: SpectralRules
+    url: rules/buywhere-rules.yml
+  - type: Examples
+    url: examples/buywhere-searchProducts-example.json
+  - type: Examples
+    url: examples/buywhere-getDeals-example.json
+  - type: Examples
+    url: examples/buywhere-compareProducts-example.json
+  - type: Examples
+    url: examples/buywhere-getProduct-example.json
+  - type: Examples
+    url: examples/buywhere-getProductPrices-example.json
+  - type: Examples
+    url: examples/buywhere-listCategories-example.json
+  - type: Examples
+    url: examples/buywhere-getCategoryProducts-example.json
+  - type: Examples
+    url: examples/buywhere-registerAgent-example.json
+  - type: Examples
+    url: examples/buywhere-mcp-tools-call-example.json
+- aid: buywhere:buywhere-usage-api
+  name: BuyWhere Usage API
+  description: The Usage API from BuyWhere — 1 operation(s) for usage.
+  humanURL: https://api.buywhere.ai/
+  baseURL: https://api.buywhere.ai/v1
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/buywhere-usage-api-openapi.yml
   - type: Documentation
     url: https://api.buywhere.ai/
   - type: MCPDocumentation

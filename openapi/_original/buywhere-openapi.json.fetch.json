@@ -1,0 +1,12 @@
+{
+ "url": "https://api.buywhere.ai/openapi.json",
+ "final": "https://api.buywhere.ai/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 14840,
+ "sha256": "4f6fccb3364578a02036c9a3d40f34a665d180852426282b1fe45b98246dc03f",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

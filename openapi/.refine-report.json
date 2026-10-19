@@ -1,24 +1,39 @@
 {
   "provider": "buywhere",
   "sources": [
-    "_original/buywhere-openapi.yml"
+    "_original/buywhere-openapi.json"
   ],
   "outputs": [
-    "buywhere-authentication-api-openapi.yml",
+    "buywhere-auth-api-openapi.yml",
     "buywhere-categories-api-openapi.yml",
-    "buywhere-products-api-openapi.yml"
+    "buywhere-featured-api-openapi.yml",
+    "buywhere-products-api-openapi.yml",
+    "buywhere-usage-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "buywhere-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "buywhere-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "buywhere-openapi.json: tagged paths POST /auth/register -> Auth",
+    "buywhere-openapi.json: tagged paths GET /products/search -> Products",
+    "buywhere-openapi.json: tagged paths GET /products/{id}/price-history -> Products",
+    "buywhere-openapi.json: tagged paths GET /usage/counters -> Usage",
+    "buywhere-openapi.json: tagged paths GET /products/deals -> Products",
+    "buywhere-openapi.json: tagged paths GET /featured -> Featured",
+    "buywhere-openapi.json: tagged paths GET /products/compare -> Products",
+    "buywhere-openapi.json: tagged paths GET /products/{id} -> Products",
+    "buywhere-openapi.json: tagged paths GET /products/{id}/prices -> Products",
+    "buywhere-openapi.json: tagged paths GET /products/{id}/similar -> Products",
+    "buywhere-openapi.json: tagged paths GET /categories -> Categories",
+    "buywhere-openapi.json: tagged paths GET /categories/{slug} -> Categories",
+    "buywhere-openapi.json: declared missing tag: Auth",
+    "buywhere-openapi.json: declared missing tag: Categories",
+    "buywhere-openapi.json: declared missing tag: Featured",
+    "buywhere-openapi.json: declared missing tag: Products",
+    "buywhere-openapi.json: declared missing tag: Usage",
+    "apis.yml register: written (+3 apis, 5 total)"
   ],
-  "skipped": [
-    "buywhere-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "buywhere-categories-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "buywhere-products-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

@@ -1,0 +1,32 @@
+openapi: 3.2.0
+info:
+  title: BuyWhere Product Catalog Usage API
+  version: '1'
+  description: Agent-native product catalog API for Southeast Asia and US commerce. Search 370M+ products across Shopee, Lazada, Amazon, Walmart, FairPrice, Carousell, and 20+ e-commerce platforms. Compare prices, discover deals, and find best prices through REST or MCP.
+servers:
+- url: https://api.buywhere.ai/v1
+tags:
+- name: Usage
+paths:
+  /usage/counters:
+    get:
+      summary: Usage counters for the calling API key
+      operationId: getUsageCounters
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Request counters and remaining quota
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Missing or invalid API key
+      tags:
+      - Usage
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
