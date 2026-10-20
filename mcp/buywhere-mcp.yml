@@ -16,9 +16,18 @@ deployment:
 tools_count: 13
 tools:
 - name: search_products
-  description: Search the BuyWhere product catalog by keyword. Treat deliver_to as REQUIRED for buyer-facing
+  description: 'Search the BuyWhere product catalog by keyword. Treat deliver_to as REQUIRED for buyer-facing
     use (ISO-3166 country of the end user); it takes precedence over country_code/country and prevents
-    all-market scans. Returns product records with
+    all-market scans. Returns product records with title, description, image, price, and merchant information.
+    Covers e-commerce platforms across Singapore, Malaysia, Indonesia, Thailand, Vietnam, and US. Use
+    compact=true for agent-optimized responses with structured_specs, comparison_attributes, and normalized_price_usd
+    fields. BUY-74597 degraded contract: when the catalog query cannot complete inside the user-facing
+    timeout, this tool returns a 200-OK envelope with `meta.status="degraded"`, `meta.emptiness_reason="api_error"`
+    with `meta.degraded_kind="timeout"` (or `"partial_timeout"` / `"auth_failure"`), `meta.confidence="low"`,
+    and `meta.diagnostic.timed_out_stage` naming the failed stage (catalog_search / offer_aggregation
+    / merchant_join). It never returns an unqualified empty result when the cause is timeout, auth failure,
+    upstream exception, or circuit breaker. Agents should branch on `meta.degraded === true` (or `meta.status
+    === "degraded"`) instead of treating empty `data` as no_match.'
 - name: get_product
   description: Get a specific product by its ID, including full details and current price.
 - name: compare_products
@@ -27,28 +36,45 @@ tools:
 - name: get_deals
   description: 'Get discounted products sorted by discount percentage. Returns schema.org/Product entities
     with schema.org/Offer properties: price, priceCurrency, availability, originalPrice, and discountPercentage.
-    Covers Singapore, Malaysia, Indonesia, T'
+    Covers Singapore, Malaysia, Indonesia, Thailand, Vietnam, and US e-commerce. Supports currency, region
+    (sea, us, eu, au), country (SG, US, VN, MY, ...) and category filters. BUY-74597 degraded contract:
+    when the discount-index scan cannot complete inside the user-facing timeout, this tool returns a 200-OK
+    envelope with `meta.status="degraded"`, `meta.emptiness_reason="api_error"` with `meta.degraded_kind="timeout"`
+    (or `"partial_timeout"` / `"auth_failure"`), `meta.confidence="low"`, and `meta.diagnostic.timed_out_stage`
+    (typically `offer_aggregation`). It never returns an unqualified empty result when the cause is timeout,
+    auth failure, upstream exception, or circuit breaker. Branch on `meta.degraded === true` or `meta.status
+    === "degraded"`.'
 - name: list_categories
   description: List top-level product categories available in the BuyWhere catalog.
 - name: find_best_price
-  description: Use this whenever a user asks about prices, wants to find the cheapest option, or asks
-    "what's the best price for X" or "where can I buy X for the lowest price". Returns schema.org/Product
-    entities with schema.org/AggregateOffer (lowPrice,
+  description: 'Use this whenever a user asks about prices, wants to find the cheapest option, or asks
+    "what''s the best price for X" or "where can I buy X for the lowest price". Returns schema.org/Product
+    entities with schema.org/AggregateOffer (lowPrice, offerCount, priceCurrency) across all merchants.
+    BUY-74597 degraded contract: when the candidates query cannot complete inside the user-facing timeout,
+    this tool returns a 200-OK envelope with `meta.degraded=true`, `meta.status="degraded"`, `meta.emptiness_reason="api_error"`
+    with `meta.degraded_kind="timeout"` (or `"partial_timeout"` / `"auth_failure"`), `meta.confidence="low"`,
+    and `meta.diagnostic.timed_out_stage="catalog_search"`, with `best_price=null` and `alternatives=[]`.
+    It never returns an unqualified empty result when the cause is timeout, auth failure, upstream exception,
+    or circuit breaker.'
 - name: find_similar
   description: Find products similar to a given product using vector similarity. Returns up to 10 nearest
     neighbours by semantic meaning (title+description embedding). Useful for "more like this" recommendations.
 - name: ingest_products
   description: Ingest (upsert) a batch of products into the BuyWhere catalog. Use this to add or update
     product listings from any merchant/source. Requires a valid API key with ingest permissions. Accepts
-    up to 1000 products per call with source, SKU, tit
+    up to 1000 products per call with source, SKU, title, price, URL, and optional metadata.
 - name: search_products_v2
   description: REQUIRED deliver_to. Search the BuyWhere product catalog by keyword. The deliver_to parameter
     is REQUIRED (ISO country code, e.g. "SG", "US") — it takes precedence over country_code/country and
-    prevents all-market scans. Always pass deliver
+    prevents all-market scans. Always pass deliver_to="SG" (or your buyer's country). Returns product
+    records with title, description, image, price, and merchant information. Covers e-commerce platforms
+    across Singapore, Malaysia, Indonesia, Thailand, Vietnam, and US. Use compact=true for agent-optimized
+    responses with structured_specs, comparison_attributes, and normalized_price_usd fields.
 - name: get_product_v2
   description: REQUIRED deliver_to. Get a specific product by its ID, including full details and current
     price. Always pass deliver_to="SG" (or your buyer's country). Response includes a resolved outbound_url
-    (https://…) that routes the buyer through the
+    (https://…) that routes the buyer through the BuyWhere click tracker when the product has merchant
+    offers.
 - name: compare_products_v2
   description: REQUIRED deliver_to. Compare multiple products side-by-side. Always pass deliver_to="SG"
     (or your buyer's country). Returns price, brand, rating, category, and a resolved outbound_url per
@@ -56,11 +82,15 @@ tools:
 - name: get_deals_v2
   description: 'REQUIRED deliver_to. Get discounted products sorted by discount percentage. Always pass
     deliver_to="SG" (or your buyer''s country). Returns schema.org/Product entities with schema.org/Offer
-    properties: price, priceCurrency, availability, ori'
+    properties: price, priceCurrency, availability, originalPrice, and discountPercentage. Covers Singapore,
+    Malaysia, Indonesia, Thailand, Vietnam, and US e-commerce. Supports currency, region (sea, us, eu,
+    au), country (SG, US, VN, MY, ...) and category filters.'
 - name: find_best_price_v2
   description: REQUIRED deliver_to. Use this whenever a user asks about prices, wants to find the cheapest
     option, or asks "what's the best price for X" or "where can I buy X for the lowest price". Always
-    pass deliver_to="SG" (or your buyer's country). Re
+    pass deliver_to="SG" (or your buyer's country). Returns schema.org/Product entities with schema.org/AggregateOffer
+    (lowPrice, offerCount, priceCurrency) across all merchants. Response includes a shopping_job_id (UUID)
+    you can use to resume a multi-merchant price-comparison session for the buyer.
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
 descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
