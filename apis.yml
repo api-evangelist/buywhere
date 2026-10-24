@@ -175,6 +175,8 @@ apis:
   humanURL: https://api.buywhere.ai/
   baseURL: https://api.buywhere.ai/v1
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
