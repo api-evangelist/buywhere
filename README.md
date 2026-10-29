@@ -1,4 +1,4 @@
-# BuyWhere (buywhere)
+# BuyWhere
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,96 +66,175 @@
 
 Agent-native, MCP-native product catalog and price comparison API for Southeast Asia and US e-commerce. Search 1.5M+ products across Shopee, Lazada, Carousell, FairPrice, Best Denki, Amazon, Walmart, Best Buy, and 20+ retailers. AI agents and MCP clients discover and route purchases to local merchants through a hosted MCP HTTP endpoint at api.buywhere.ai/mcp or via the @buywhere/mcp-server STDIO package.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/buywhere/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/buywhere/refs/heads/main/apis.yml)
+**Areas:** E-Commerce · Shopping · Price Comparison · SEA · Southeast Asia · AI Agents · Product Catalog · A2A
 
-## Scope
+## BuyWhere on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for BuyWhere is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/buywhere/](https://apis.io/providers/buywhere/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (3)
 
-- E-commerce
-- Shopping
-- Price Comparison
-- SEA
-- Southeast Asia
-- AI Agents
-- Product Catalog
+- [BuyWhere Authentication API](https://apis.io/apis/buywhere/buywhere-authentication-api/) — Agent registration and API key issuance.
+- [BuyWhere Categories API](https://apis.io/apis/buywhere/buywhere-categories-api/) — Product taxonomy and category browsing.
+- [BuyWhere Products API](https://apis.io/apis/buywhere/buywhere-products-api/) — Product search, lookup, comparison, deals, and price history.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-16
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### BuyWhere Product Catalog API
+Model Context Protocol servers that expose the API to agents.
 
-Agent-native REST and MCP product catalog covering 1.5M+ products across Southeast Asian and US e-commerce platforms. Operations include keyword search, side-by-side comparison, deals discovery, price history, and category browsing. Responses are Schema.org-compatible (Product, Offer, ItemList) and include normalized structured_specs and comparison_attributes so LLMs can rank and reason without scraping. Same operations are exposed to MCP clients at api.buywhere.ai/mcp.
+- [buywhere](https://apis.io/servers/buywhere/buywhere/)
 
-- **Human URL:** [https://api.buywhere.ai/](https://api.buywhere.ai/)
-- **Base URL:** `https://api.buywhere.ai/v1`
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- E-commerce
-- Shopping
-- Price Comparison
-- SEA
-- Southeast Asia
-- AI Agents
-- Product Catalog
-- MCP
+- [Buywhere Agentic Access](https://apis.io/agentic-access/buywhere/buywhere-agentic-access/)
 
-#### Properties
+#### JSON Schema (4)
 
-- [OpenAPI](openapi/buywhere-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/buywhere.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/buywhere.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [OpenAPI](https://api.buywhere.ai/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://api.buywhere.ai/)
-- [M C P Documentation](https://api.buywhere.ai/docs/guides/mcp)
-- [M C P Endpoint](https://api.buywhere.ai/mcp)
-- [Plugin Manifest](https://api.buywhere.ai/.well-known/ai-plugin.json)
-- [L L Ms Txt](https://api.buywhere.ai/llms.txt)
-- [JSON Schema](json-schema/buywhere-product-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/buywhere-offer-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/buywhere-price-history-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/buywhere-category-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/buywhere-product-structure.json)
-- [JSON Structure](json-structure/buywhere-offer-structure.json)
-- [Spectral Rules](rules/buywhere-rules.yml)
-- [Example](examples/buywhere-searchProducts-example.json)
-- [Example](examples/buywhere-getDeals-example.json)
-- [Example](examples/buywhere-compareProducts-example.json)
-- [Example](examples/buywhere-getProduct-example.json)
-- [Example](examples/buywhere-getProductPrices-example.json)
-- [Example](examples/buywhere-listCategories-example.json)
-- [Example](examples/buywhere-getCategoryProducts-example.json)
-- [Example](examples/buywhere-registerAgent-example.json)
-- [Example](examples/buywhere-mcp-tools-call-example.json)
+The data models the API reads and writes.
 
-## Common Properties
+- [BuyWhere Category](https://apis.io/schemas/buywhere/buywhere-category/)
+- [BuyWhere Offer](https://apis.io/schemas/buywhere/buywhere-offer/)
+- [BuyWhere Price History](https://apis.io/schemas/buywhere/buywhere-price-history/)
+- [BuyWhere Product](https://apis.io/schemas/buywhere/buywhere-product/)
+
+#### JSON Structure (2)
+
+Data models expressed in JSON Structure.
+
+- [Buywhere Offer Structure](https://apis.io/json-structure/buywhere/buywhere-offer-structure/)
+- [Buywhere Product Structure](https://apis.io/json-structure/buywhere/buywhere-product-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Buywhere Context](https://apis.io/jsonld/buywhere/buywhere-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Buywhere Vocabulary](https://apis.io/vocabularies/buywhere/buywhere-vocabulary/)
+
+#### Examples (9)
+
+Example requests and responses.
+
+- [Buywhere Compareproducts Example](https://apis.io/examples/buywhere/buywhere-compareProducts-example/)
+- [Buywhere Getcategoryproducts Example](https://apis.io/examples/buywhere/buywhere-getCategoryProducts-example/)
+- [Buywhere Getdeals Example](https://apis.io/examples/buywhere/buywhere-getDeals-example/)
+- [Buywhere Getproduct Example](https://apis.io/examples/buywhere/buywhere-getProduct-example/)
+- [Buywhere Getproductprices Example](https://apis.io/examples/buywhere/buywhere-getProductPrices-example/)
+- [Buywhere Listcategories Example](https://apis.io/examples/buywhere/buywhere-listCategories-example/)
+- [Buywhere Mcp Tools Call Example](https://apis.io/examples/buywhere/buywhere-mcp-tools-call-example/)
+- [Buywhere Registeragent Example](https://apis.io/examples/buywhere/buywhere-registerAgent-example/)
+- [Buywhere Searchproducts Example](https://apis.io/examples/buywhere/buywhere-searchProducts-example/)
+
+#### Collections (4)
+
+Postman and Open Collection request collections.
+
+- [BuyWhere Product Catalog API](https://apis.io/collections/buywhere/open-buywhere/)
+- [BuyWhere Product Catalog Authentication API](https://apis.io/collections/buywhere/open-buywhere-authentication-api/)
+- [BuyWhere Product Catalog Authentication Categories API](https://apis.io/collections/buywhere/open-buywhere-categories-api/)
+- [BuyWhere Product Catalog Authentication Products API](https://apis.io/collections/buywhere/open-buywhere-products-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [BuyWhere — jsonschema rules](https://apis.io/rules/buywhere/buywhere-jsonschema-spectral-rules/)
+- [BuyWhere API Rules](https://apis.io/rules/buywhere/buywhere-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Buywhere Authentication](https://apis.io/security/buywhere/buywhere-authentication/)
+- [Buywhere Domain Security](https://apis.io/security/buywhere/buywhere-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Buywhere Plans Pricing](https://apis.io/plans/buywhere/buywhere-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Buywhere Rate Limits](https://apis.io/rate-limits/buywhere/buywhere-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Buywhere Finops](https://apis.io/finops/buywhere/buywhere-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://api.buywhere.ai/)
 - [Documentation](https://api.buywhere.ai/)
-- [M C P Documentation](https://api.buywhere.ai/docs/guides/mcp)
-- [M C P Endpoint](https://api.buywhere.ai/mcp)
-- [OpenAPI](https://api.buywhere.ai/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Plugin Manifest](https://api.buywhere.ai/.well-known/ai-plugin.json)
-- [L L Ms Txt](https://api.buywhere.ai/llms.txt)
-- [Website](https://api.buywhere.ai/us/)
-- [Git Hub](https://github.com/BuyWhere)
-- [Git Hub](https://github.com/BuyWhere/buywhere)
-- [Plans](plans/buywhere-plans-pricing.yml)
-- [Rate Limits](rate-limits/buywhere-rate-limits.yml)
-- [Fin Ops](finops/buywhere-finops.yml)
-- [Vocabulary](vocabulary/buywhere-vocabulary.yml)
-- [JSON-LD](json-ld/buywhere-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 32.6** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 58.9 |
+| Contract governance | 27.3 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 21.4 |
+| Access clarity | 7.9 |
+
+**Agent readiness 34.3** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | flavored (partial credit) |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/buywhere/](https://apis.io/providers/buywhere/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for BuyWhere: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/buywhere/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
